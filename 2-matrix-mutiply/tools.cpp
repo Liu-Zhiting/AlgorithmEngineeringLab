@@ -55,8 +55,7 @@ bool initialize(int argc, char** argv)
         return false;
     }
 
-    Result.size = A.size;
-    Result.data = new int32_t[Result.size];
+    Result.resize(A.size);
 
     return true;
 }
@@ -69,7 +68,7 @@ TestCase run_and_measure_time(fun_ptr func)
     tc.nworkers = __cilkrts_get_nworkers();
     try
     {
-        memset(Result.data,0,sizeof(int32_t)*Result.size);
+        Result.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
         string func_name = func(A, B, Result);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
