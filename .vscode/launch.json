@@ -1,7 +1,4 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -12,7 +9,8 @@
             "args": [
                 "${workspaceFolder}/2-matrix-mutiply/data/4x4.txt",
                 "${workspaceFolder}/2-matrix-mutiply/data/4x4.txt",
-                "text"],
+                "text"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -24,8 +22,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ], 
-            "miDebuggerPath":"/usr/bin/gdb",
+            ],
+            "miDebuggerPath": "/usr/bin/gdb",
             "preLaunchTask": "make-matrix-multiply"
         }
     ]
