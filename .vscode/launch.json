@@ -30,10 +30,10 @@
             "name": "(gdb) matrix-mutiply",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/2-matrix-mutiply/matrixMul",
+            "program": "${workspaceFolder}/2-matrix-multiply/matrixMul",
             "args": [
-                "${workspaceFolder}/2-matrix-mutiply/data/4x4.txt",
-                "${workspaceFolder}/2-matrix-mutiply/data/4x4.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/4x4.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/4x4.txt",
                 "text"
             ],
             "stopAtEntry": false,
