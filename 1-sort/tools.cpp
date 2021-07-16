@@ -1,10 +1,11 @@
 #include "utils.hpp"
 
-SortArray TheArray;
+SortArray Source,Result;
 
 vector<fun_ptr> test_list = 
 {
-
+    f1,
+    f2
 };
 
 bool initialize(int argc, char** argv)
@@ -29,13 +30,14 @@ bool initialize(int argc, char** argv)
   
     bool load_result;
     load_result = false;
-    if(is_binary) load_result = TheArray.load_data_binary(argv[1]);
-    if(is_text) load_result = TheArray.load_data_text(argv[1]);
+    if(is_binary) load_result = Source.load_data_binary(argv[1]);
+    if(is_text) load_result = Source.load_data_text(argv[1]);
     if(!load_result) 
     {
         cerr << "Load failed" << endl;
         return false;
     }
+    Result = Source;
 
     return true;
 }
@@ -48,9 +50,9 @@ TestCase run_and_measure_time(fun_ptr func)
     tc.nworkers = __cilkrts_get_nworkers();
     try
     {
-        memset(TheArray.data,0,sizeof(int32_t)*TheArray.size);
+        Result = Source;
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        string func_name = func(TheArray);
+        string func_name = func(Result);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
         tc.name = func_name;
@@ -72,14 +74,14 @@ vector<TestCase> test_all()
     TestCase current_case;
 
     TestCase ref_case = run_and_measure_time(ref);
-    SortArray compare(TheArray);
+    SortArray compare(Result);
     ref_case.correctness = true;
     cases.push_back(ref_case);
     
     for(int i = 0; i < test_list.size(); i++)
     {
         current_case = run_and_measure_time(test_list[i]);
-        current_case.correctness = (TheArray == compare);
+        current_case.correctness = (Result == compare);
         cases.push_back(current_case);
     }
 

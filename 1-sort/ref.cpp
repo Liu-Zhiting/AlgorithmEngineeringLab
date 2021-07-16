@@ -4,7 +4,7 @@
 
 int cmp_int32(const void * a,const void * b)
 {
-    return *((int32_t*)a) - *((int32_t*)b);
+    return (*(int32_t*)a - *(int32_t*)b);
 }
 
 string ref(SortArray& result)

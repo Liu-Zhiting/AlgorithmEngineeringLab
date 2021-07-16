@@ -11,37 +11,41 @@
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
 
-
-
 #ifdef _CILK_H
-    #define parallel_for cilk_for
-    #define parallel_spawn cilk_spawn
-    #define parallel_sync cilk_sync
+#define parallel_for cilk_for
+#define parallel_spawn cilk_spawn
+#define parallel_sync cilk_sync
 #else
-    #define parallel_for for
-    #define parallel_spawn
-    #define parallel_sync
+#define parallel_for for
+#define parallel_spawn
+#define parallel_sync
 #endif
 
 using namespace std;
-using chrono::high_resolution_clock;
 using chrono::duration;
 using chrono::duration_cast;
+using chrono::high_resolution_clock;
 
-typedef struct SortArray
+class SortArray
 {
-    int32_t* data;
+private:
+    void dispose();
+
+public:
+    int32_t *data;
     uint32_t size;
 
-    SortArray():data(nullptr),size(0){};
-    SortArray(uint32_t size):size(size){data=new int32_t[size];};
-    SortArray(const SortArray& other);
-    bool load_data_text(const char* filename);
-    bool load_data_binary(const char* filename);
-    bool operator==(const SortArray& other) const;
+    SortArray() : data(nullptr), size(0){};
+    SortArray(uint32_t size) : size(size) { data = new int32_t[size]; };
+    SortArray(const SortArray &other);
+    ~SortArray() { dispose(); };
+    bool load_data_text(const char *filename);
+    bool load_data_binary(const char *filename);
+    bool operator==(const SortArray &other) const;
+    SortArray &operator=(const SortArray &other);
+};
 
-} SortArray;
-typedef string (*fun_ptr)(SortArray& array);
+typedef string (*fun_ptr)(SortArray &array);
 typedef struct TestCase
 {
     string name;
@@ -51,11 +55,11 @@ typedef struct TestCase
     fun_ptr func;
 } TestCase;
 
-bool initialize(int argc, char** argv);
+bool initialize(int argc, char **argv);
 TestCase run_and_measure_time(fun_ptr func);
 vector<TestCase> test_all();
-void dump_result(vector<TestCase>& cases);
+void dump_result(vector<TestCase> &cases);
 
-string ref(SortArray& array);
-
-
+string ref(SortArray &array);
+string f1(SortArray &array);
+string f2(SortArray &array);

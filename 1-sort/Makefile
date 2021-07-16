@@ -8,7 +8,7 @@ TARGET = sort
 BIN_TARGET = ${DIR_BIN}/${TARGET}
  
 CC = clang++
-CFLAGS = -fcilkplus
+CFLAGS = -g -fcilkplus
 
 ${BIN_TARGET}:${SRC}
 	$(CC) $(CFLAGS) $(SRC) -o ${BIN_TARGET}
