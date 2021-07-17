@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     cout << "============================================================" << endl;
     cout << "==============      Parallel Course Lab      ===============" << endl;
     cout << "============================================================" << endl;
-    cout << "Project 2: Matrix multiply" << endl << endl;
+    cout << "Project 3: Parallel BFS" << endl << endl;
     while (current_threads <= max_threads)
     {
         sprintf(nworkers, "%d", current_threads);
