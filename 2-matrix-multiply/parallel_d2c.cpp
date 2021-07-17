@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "matrix.hpp"
 
 string parallel_d2c(const MatArray& left, const MatArray& right, MatArray& result)
 {

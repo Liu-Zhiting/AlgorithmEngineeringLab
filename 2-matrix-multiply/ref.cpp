@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "matrix.hpp"
 
 string ref(const MatArray& left, const MatArray& right, MatArray& result)
 {

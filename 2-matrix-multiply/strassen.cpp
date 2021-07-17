@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "matrix.hpp"
 
 string strassen(const MatArray& left, const MatArray& right, MatArray& result)
 {

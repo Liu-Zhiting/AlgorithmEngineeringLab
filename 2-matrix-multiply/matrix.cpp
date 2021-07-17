@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "matrix.hpp"
 
 MatArray::MatArray(const MatArray& other):size(other.size),data(nullptr)
 {

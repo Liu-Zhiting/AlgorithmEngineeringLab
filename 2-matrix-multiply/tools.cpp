@@ -1,4 +1,7 @@
+#include <iomanip>
 #include "utils.hpp"
+#include "test.hpp"
+#include "matrix.hpp"
 
 MatArray A,B,Result;
 
