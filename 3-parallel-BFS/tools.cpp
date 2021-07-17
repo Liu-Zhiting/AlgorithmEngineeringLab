@@ -1,4 +1,6 @@
 #include "utils.hpp"
+#include "test.hpp"
+#include "adjoint_list.hpp"
 
 Graph Source;
 Solution TheSolution;
