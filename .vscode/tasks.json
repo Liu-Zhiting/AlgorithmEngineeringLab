@@ -1,29 +1,37 @@
 {
     // https://code.visualstudio.com/docs/editor/tasks
+
+    // 任务分组，因为是tasks而不是task，意味着可以连着执行很多任务
+    // 在build组的任务们，可以通过在Command Palette(F1) 输入run build task来运行
+    // 当然，如果任务分组是test，你就可以用run test task来运行
+
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "make-sort",  // 任务的名字叫Build，注意是大小写区分的，等会在launch中调用这个名字
-            "type": "shell",  // 任务执行的是shell命令，也可以是
-            "command": "cd ${workspaceFolder}/1-sort && make", // 命令是make
+            "label": "make-sort",  
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/1-sort && make", 
             "group": { 
                 "kind": "build",
                 "isDefault": true   
-                // 任务分组，因为是tasks而不是task，意味着可以连着执行很多任务
-                // 在build组的任务们，可以通过在Command Palette(F1) 输入run build task来运行
-                // 当然，如果任务分组是test，你就可以用run test task来运行 
             }
         },
         {
-            "label": "make-matrix-multiply",  // 任务的名字叫Build，注意是大小写区分的，等会在launch中调用这个名字
-            "type": "shell",  // 任务执行的是shell命令，也可以是
-            "command": "cd ${workspaceFolder}/2-matrix-multiply && make", // 命令是make
+            "label": "make-matrix-multiply", 
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/2-matrix-multiply && make",
             "group": { 
                 "kind": "build",
                 "isDefault": true   
-                // 任务分组，因为是tasks而不是task，意味着可以连着执行很多任务
-                // 在build组的任务们，可以通过在Command Palette(F1) 输入run build task来运行
-                // 当然，如果任务分组是test，你就可以用run test task来运行 
+            }
+        },
+        {
+            "label": "make-parallel-BFS", 
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/3-parallel-BFS && make",
+            "group": { 
+                "kind": "build",
+                "isDefault": true   
             }
         }
     ]

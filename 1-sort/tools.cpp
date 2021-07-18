@@ -18,13 +18,13 @@ bool initialize(int argc, char** argv)
     }
     else
     {
-        is_binary = !strcmp(argv[3],"binary");
-        is_text = !strcmp(argv[3],"text");
+        is_binary = !strcmp(argv[2],"binary");
+        is_text = !strcmp(argv[2],"text");
     }
     
     if((!is_binary && !is_text) || (is_binary && is_text))
     {
-        cerr << " Invalid argument <file_type>: " << argv[3] << endl;
+        cerr << " Invalid argument <file_type>: " << argv[2] << endl;
         return false;
     }
   

@@ -39,13 +39,14 @@ private:
 
 public:
     uint32_t size;
-    uint32_t* distance;
-    Solution():size(0),distance(nullptr){};
-    Solution(uint32_t size){initialize();};
-    Solution(const Solution& other);
-    ~Solution(){ dispose();};
+    uint32_t *distance;
+    Solution() : size(0), distance(nullptr){};
+    Solution(uint32_t size) { initialize(); };
+    Solution(const Solution &other);
+    ~Solution() { dispose(); };
 
-    void attach_to_graph(const Graph& graph);
+    void attach_to_graph(const Graph &graph);
+    void clear() { memset(distance, 0, size * sizeof(uint32_t)); };
 
     bool operator==(const Solution &other) const;
     Solution &operator=(const Solution &other);
@@ -65,5 +66,7 @@ bool initialize(int argc, char **argv);
 TestCase run_and_measure_time(fun_ptr func);
 vector<TestCase> test_all();
 void dump_result(vector<TestCase> &cases);
+
+const int ROOT_ID = 0;
 
 string ref(const Graph &graph, Solution &solution);

@@ -2,7 +2,8 @@
 
 int main(int argc, char **argv)
 {
-    if(!initialize(argc, argv)) return 1;
+    if (!initialize(argc, argv))
+        return 1;
 
     char nworkers[10];
     int current_threads = 1;
@@ -11,7 +12,8 @@ int main(int argc, char **argv)
     cout << "============================================================" << endl;
     cout << "==============      Parallel Course Lab      ===============" << endl;
     cout << "============================================================" << endl;
-    cout << "Project 2: Matrix multiply" << endl << endl;
+    cout << "Project 4: Triangle Counting" << endl
+         << endl;
     while (current_threads <= max_threads)
     {
         sprintf(nworkers, "%d", current_threads);
@@ -21,7 +23,7 @@ int main(int argc, char **argv)
         __cilkrts_end_cilk();
         current_threads <<= 1;
     }
-    if((current_threads >> 1) < max_threads)
+    if ((current_threads >> 1) < max_threads)
     {
         sprintf(nworkers, "%d", current_threads);
         __cilkrts_set_param("nworkers", nworkers);
@@ -30,6 +32,4 @@ int main(int argc, char **argv)
     }
 
     cout << "============================================================" << endl;
-
 }
-

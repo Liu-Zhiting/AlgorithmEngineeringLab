@@ -63,6 +63,7 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "*.tcc": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "bitset": "cpp"
     }
 }

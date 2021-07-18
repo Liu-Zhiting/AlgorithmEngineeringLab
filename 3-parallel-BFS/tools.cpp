@@ -18,15 +18,19 @@ bool initialize(int argc, char **argv)
         cerr << "Usage: <path_to_graph> <file_type:text|binary>" << endl;
         return false;
     }
+    else
+    {
+        is_binary = !strcmp(argv[2],"binary");
+        is_text = !strcmp(argv[2],"text");
+    }
 
     if ((!is_binary && !is_text) || (is_binary && is_text))
     {
-        cerr << " Invalid argument <file_type>: " << argv[3] << endl;
+        cerr << " Invalid argument <file_type>: " << argv[2] << endl;
         return false;
     }
 
-    bool load_result;
-    load_result = false;
+    bool load_result = false;
     if (is_binary)
         load_result = Source.load_data_binary(argv[1]);
     if (is_text)
@@ -49,7 +53,7 @@ TestCase run_and_measure_time(fun_ptr func)
     tc.nworkers = __cilkrts_get_nworkers();
     try
     {
-        // memset(Result.data,0,sizeof(int32_t)*Result.size);
+        TheSolution.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
         string func_name = func(Source, TheSolution);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
