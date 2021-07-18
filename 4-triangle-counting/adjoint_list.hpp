@@ -23,9 +23,11 @@ public:
 
     uint32_t get_vertex_count() { return this->vertex_count; };
     void add_edge(int from, int to);
+    bool search_edge(int from, int to) const;
+    uint32_t** convert_to_adjoint_matrix() const;
+
     bool load_data_text(const char *filename);
     bool load_data_binary(const char *filename);
-
     void save_file_binary(const char *binary_filename);
     void dump_adjoint_list();
 };

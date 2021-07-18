@@ -23,7 +23,7 @@ using namespace std;
 
 typedef struct Node
 {
-    int32_t value;
+    uint32_t value;
     struct Node *next;
 } Node;
 typedef Node *Linklist;
@@ -46,12 +46,13 @@ public:
     ~Solution(){ dispose();};
 
     void attach_to_graph(const Graph& graph);
+    void clear() { memset(distance, 0, size * sizeof(uint32_t)); };
 
     bool operator==(const Solution &other) const;
     Solution &operator=(const Solution &other);
 };
 
-typedef string (*fun_ptr)(const Graph &graph, Solution &solution);
+typedef string (*fun_ptr)(const Graph &graph, uint32_t& result);
 typedef struct TestCase
 {
     string name;
@@ -66,4 +67,4 @@ TestCase run_and_measure_time(fun_ptr func);
 vector<TestCase> test_all();
 void dump_result(vector<TestCase> &cases);
 
-string ref(const Graph &graph, Solution &solution);
+string ref(const Graph &graph, uint32_t& result);

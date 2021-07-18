@@ -64,6 +64,7 @@
         "xutility": "cpp",
         "*.tcc": "cpp",
         "functional": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "string_view": "cpp"
     }
 }

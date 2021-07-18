@@ -221,3 +221,31 @@ void AdjointList::dump_adjoint_list()
         cout << endl;
     }
 }
+
+bool AdjointList::search_edge(int from, int to) const
+{
+    for (Node *p = vertex[from].next; p != nullptr; p = p->next)
+    {
+        if (p->value == to)
+            return true;
+    }
+    return false;
+}
+
+uint32_t **AdjointList::convert_to_adjoint_matrix() const
+{
+    uint32_t **result = new uint32_t *[vertex_count];
+    parallel_for (int i = 0; i < vertex_count; i++)
+    {
+        result[i] = new uint32_t[vertex_count];
+        memset(result[i], 0, vertex_count * sizeof(uint32_t));
+    }
+    parallel_for(int i = 0; i < vertex_count; i++)
+    {
+        for(Node *p = vertex[i].next; p != nullptr; p = p->next)
+        {
+            result[i][p->value] = 1;
+        }
+    }
+    return result;
+}

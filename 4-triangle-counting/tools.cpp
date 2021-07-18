@@ -3,7 +3,8 @@
 #include "adjoint_list.hpp"
 
 Graph Source;
-Solution TheSolution;
+// Solution TheSolution;
+uint32_t Result = 0;
 
 vector<fun_ptr> test_list =
     {
@@ -18,10 +19,15 @@ bool initialize(int argc, char **argv)
         cerr << "Usage: <path_to_graph> <file_type:text|binary>" << endl;
         return false;
     }
+    else
+    {
+        is_binary = !strcmp(argv[2], "binary");
+        is_text = !strcmp(argv[2], "text");
+    }
 
     if ((!is_binary && !is_text) || (is_binary && is_text))
     {
-        cerr << " Invalid argument <file_type>: " << argv[3] << endl;
+        cerr << " Invalid argument <file_type>: " << argv[2] << endl;
         return false;
     }
 
@@ -37,7 +43,7 @@ bool initialize(int argc, char **argv)
         return false;
     }
 
-    TheSolution.attach_to_graph(Source);
+    // TheSolution.attach_to_graph(Source);
     return true;
 }
 
@@ -49,9 +55,10 @@ TestCase run_and_measure_time(fun_ptr func)
     tc.nworkers = __cilkrts_get_nworkers();
     try
     {
-        // memset(Result.data,0,sizeof(int32_t)*Result.size);
+        // TheSolution.clear();
+        Result = 0;
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        string func_name = func(Source, TheSolution);
+        string func_name = func(Source, Result);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
         tc.name = func_name;
@@ -73,14 +80,14 @@ vector<TestCase> test_all()
     TestCase current_case;
 
     TestCase ref_case = run_and_measure_time(ref);
-    Solution compare(TheSolution);
+    // Solution compare(TheSolution);
+    uint32_t compare = Result;
     ref_case.correctness = true;
     cases.push_back(ref_case);
-
     for (int i = 0; i < test_list.size(); i++)
     {
         current_case = run_and_measure_time(test_list[i]);
-        current_case.correctness = (TheSolution == compare);
+        current_case.correctness = (Result == compare);
         cases.push_back(current_case);
     }
 
