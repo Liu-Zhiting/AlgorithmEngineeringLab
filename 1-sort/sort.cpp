@@ -57,8 +57,7 @@ bool SortArray::load_data_binary(const char *filename)
     fin.open(filename);
     fin.read((char *)&size, sizeof(uint32_t));
     data = new int32_t[size];
-    for (int i = 0; i < size; i++)
-        fin.read((char *)&data[i], sizeof(int32_t));
+    fin.read((char *)data, size * sizeof(int32_t));
     fin.close();
     return true;
 }

@@ -1,7 +1,6 @@
 #include "utils.hpp"
 
-
-string f2(SortArray& result)
+string parallel_merge(SortArray& result)
 {
     string func_name = __FUNCTION__;
 

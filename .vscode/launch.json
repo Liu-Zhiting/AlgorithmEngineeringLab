@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/1-sort/sort",
             "args": [
-                "${workspaceFolder}/1-sort/data/10.txt",
+                "${workspaceFolder}/1-sort/data/array_65535_7.txt",
                 "text"
             ],
             "stopAtEntry": false,
@@ -31,8 +31,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/2-matrix-multiply/matrixMul",
             "args": [
-                "${workspaceFolder}/2-matrix-multiply/data/4x4.txt",
-                "${workspaceFolder}/2-matrix-multiply/data/4x4.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/matrix_256_7.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/matrix_256_7.txt",
                 "text"
             ],
             "stopAtEntry": false,

@@ -22,7 +22,7 @@ string ref(const Graph &graph, uint32_t& result)
         parallel_for(int j = 0; j < graph.vertex_count; j++)
             result += A[i][j] * A2[i][j];
 
-    result /= 6;
+    result /= 6;  //无向图需要再次除以2
 
     parallel_for(int i = 0; i < graph.vertex_count; i++)
     {

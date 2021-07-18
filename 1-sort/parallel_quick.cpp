@@ -1,6 +1,7 @@
 #include "utils.hpp"
 
-string f1(SortArray& result)
+
+string parallel_quick(SortArray& result)
 {
     string func_name = __FUNCTION__;
 

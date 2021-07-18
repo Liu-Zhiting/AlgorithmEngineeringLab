@@ -4,8 +4,8 @@ SortArray Source,Result;
 
 vector<fun_ptr> test_list = 
 {
-    f1,
-    f2
+    parallel_merge,
+    parallel_quick
 };
 
 bool initialize(int argc, char** argv)

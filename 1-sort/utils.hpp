@@ -61,5 +61,5 @@ vector<TestCase> test_all();
 void dump_result(vector<TestCase> &cases);
 
 string ref(SortArray &array);
-string f1(SortArray &array);
-string f2(SortArray &array);
+string parallel_merge(SortArray &array);
+string parallel_quick(SortArray &array);
