@@ -1,24 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include <cstdint>
-#include <cstring>
-#include <sstream>
+#include "utils.hpp"
 
-#include "cilk/cilk.h"
-
-#ifdef _CILK_H
-#define parallel_for cilk_for
-#define parallel_spawn cilk_spawn
-#define parallel_sync cilk_sync
-#else
-#define parallel_for for
-#define parallel_spawn
-#define parallel_sync
-#endif
-
-using namespace std;
-
-uint32_t count = 0, length = 0, mod = 1;
+uint32_t size = 0, length = 0, mod = 1;
 
 ostringstream ostr;
 
@@ -45,7 +27,7 @@ int main(int argc, char **argv)
 {
     if (argc < 5)
     {
-        cerr << "Usage: <file_type:text|binary> <mode:random|sparse|repeated> <count> <length>" << endl;
+        cerr << "Usage: <file_type:text|binary> <mode:random|sparse|repeated> <size> <length>" << endl;
         return 1;
     }
     try
@@ -65,7 +47,7 @@ int main(int argc, char **argv)
         else
             throw argv[2];
         mode = argv[2];
-        count = atoi(argv[3]);
+        size = atoi(argv[3]);
         length = atoi(argv[4]);
     }
     catch (char *argument)
@@ -77,10 +59,10 @@ int main(int argc, char **argv)
     for (int i = 0; i < length; i++)
         mod *= 10;
 
-    ostr << "./array/array_" << mode << '_' << count << '_' << length;
+    ostr << "array_" << mode << '_' << size << '_' << length;
 
-    int32_t *array = new int32_t[count];
-    memset(array, 0, count * sizeof(int32_t));
+    int32_t *array = new int32_t[size];
+    memset(array, 0, size * sizeof(int32_t));
     srand(time(NULL));
 
     generate[mode_id](array);
@@ -95,8 +77,8 @@ void save_text(int32_t *result)
     ostr << ".txt";
     ofstream fout;
     fout.open(ostr.str());
-    fout << count << endl;
-    for (int i = 0; i < count; i++)
+    fout << size << endl;
+    for (int i = 0; i < size; i++)
         fout << result[i] << " ";
     fout.close();
 }
@@ -106,14 +88,14 @@ void save_binary(int32_t *result)
     ostr << ".bin";
     ofstream fout;
     fout.open(ostr.str(), ios::binary);
-    fout.write((char *)&count, sizeof(uint32_t));
-    fout.write((char *)result, count * sizeof(int32_t));
+    fout.write((char *)&size, sizeof(uint32_t));
+    fout.write((char *)result, size * sizeof(int32_t));
     fout.close();
 }
 
 void generate_random(int32_t *result)
 {
-    parallel_for(int i = 0; i < count; i++)
+    parallel_for(int i = 0; i < size; i++)
         result[i] = rand() % mod;
 }
 
