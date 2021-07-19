@@ -31,8 +31,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/2-matrix-multiply/matrixMul",
             "args": [
-                "${workspaceFolder}/2-matrix-multiply/data/matrix_256_7.txt",
-                "${workspaceFolder}/2-matrix-multiply/data/matrix_256_7.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/matrix_random_1024_6.txt",
+                "${workspaceFolder}/2-matrix-multiply/data/matrix_random_1024_6.txt",
                 "text"
             ],
             "stopAtEntry": false,

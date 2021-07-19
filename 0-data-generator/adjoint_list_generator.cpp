@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     ostr << "adjoint_list_" << mode << '_' << graph.vertex_count;
 
     generate[mode_id](graph);
-    if(0 == file_type_id)
+    if (0 == file_type_id)
     {
         ostr << ".txt";
         graph.save_file_text(ostr.str().c_str());
@@ -64,5 +64,19 @@ int main(int argc, char **argv)
 
 void generate_random(AdjointList &graph)
 {
-
+    int n = graph.vertex_count;
+    int iter_rounds = (n) * (n - 1) / 2;
+    iter_rounds = (int)(((rand() % 100) / 100.0) * iter_rounds);
+    uint32_t u, v;
+    for (int i = 0; i < iter_rounds; i++)
+    {
+        u = rand() % n;
+        v = rand() % n;
+        while (u == v)
+            v = rand() % n;
+        if (graph.search_edge(u, v) || graph.search_edge(v, u))
+            continue;
+        graph.add_edge(u, v);
+        graph.add_edge(v, u);
+    }
 }

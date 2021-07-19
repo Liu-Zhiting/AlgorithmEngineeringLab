@@ -176,13 +176,44 @@ AdjointList &AdjointList::operator=(const AdjointList &other)
     return *this;
 }
 
-void AdjointList::add_edge(int from, int to)
+bool AdjointList::add_edge(int from, int to)
 {
-    this->out_degree[from]++;
-    Node *p = this->vertex[from].next;
-    this->vertex[from].next = new Node();
-    this->vertex[from].next->value = to;
-    this->vertex[from].next->next = p;
+    if (search_edge(from, to))
+        return false;
+    out_degree[from]++;
+    Node *p = vertex[from].next;
+    vertex[from].next = new Node();
+    vertex[from].next->value = to;
+    vertex[from].next->next = p;
+    edge_count++;
+    return true;
+}
+
+bool AdjointList::search_edge(int from, int to) const
+{
+    for (Node *p = vertex[from].next; p != nullptr; p = p->next)
+        if (p->value == to)
+            return true;
+    return false;
+}
+
+bool AdjointList::remove_edge(const int from, const int to)
+{
+    if (!search_edge(from, to))
+        return false;
+    out_degree[from]--;
+    edge_count--;
+    for (Node *p = &vertex[from]; p != nullptr; p = p->next)
+    {
+        if (to == p->next->value)
+        {
+            Node *q = p->next;
+            p->next = q->next;
+            delete q;
+            break;
+        }
+    }
+    return true;
 }
 
 void AdjointList::save_file_text(const char *filename) const
@@ -193,7 +224,7 @@ void AdjointList::save_file_text(const char *filename) const
 
     //write meta data
     fout << vertex_count << endl;
-    for(int i = 0; i < vertex_count; i++)
+    for (int i = 0; i < vertex_count; i++)
         fout << out_degree[i] << ' ';
     fout << endl;
 
@@ -209,7 +240,6 @@ void AdjointList::save_file_text(const char *filename) const
 
     //close file
     fout.close();
-
 }
 
 void AdjointList::save_file_binary(const char *filename) const
