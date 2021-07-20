@@ -26,7 +26,7 @@ using chrono::duration;
 using chrono::duration_cast;
 using chrono::high_resolution_clock;
 
-class SortArray
+class Array
 {
 private:
     void dispose();
@@ -35,17 +35,17 @@ public:
     int32_t *data;
     uint32_t size;
 
-    SortArray() : data(nullptr), size(0){};
-    SortArray(uint32_t size) : size(size) { data = new int32_t[size]; };
-    SortArray(const SortArray &other);
-    ~SortArray() { dispose(); };
+    Array() : data(nullptr), size(0){};
+    Array(uint32_t size) : size(size) { data = new int32_t[size]; };
+    Array(const Array &other);
+    ~Array() { dispose(); };
     bool load_data_text(const char *filename);
     bool load_data_binary(const char *filename);
-    bool operator==(const SortArray &other) const;
-    SortArray &operator=(const SortArray &other);
+    bool operator==(const Array &other) const;
+    Array &operator=(const Array &other);
 };
 
-typedef string (*fun_ptr)(SortArray &array);
+typedef string (*fun_ptr)(Array &array);
 typedef struct TestCase
 {
     string name;
@@ -60,6 +60,6 @@ TestCase run_and_measure_time(fun_ptr func);
 vector<TestCase> test_all();
 void dump_result(vector<TestCase> &cases);
 
-string ref(SortArray &array);
-string parallel_merge(SortArray &array);
-string parallel_quick(SortArray &array);
+string ref_sort(Array &array);
+string merge_sort(Array &array);
+string quick_sort(Array &array);

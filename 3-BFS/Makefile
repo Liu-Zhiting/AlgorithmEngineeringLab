@@ -3,7 +3,7 @@ DIR_BIN = .
 
 SRC = $(wildcard *.cpp)
 
-TARGET = parallelBFS
+TARGET = bfs
 
 BIN_TARGET = ${DIR_BIN}/${TARGET}
  

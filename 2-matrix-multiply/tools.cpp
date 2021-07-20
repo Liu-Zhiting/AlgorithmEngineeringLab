@@ -2,13 +2,13 @@
 #include "test.hpp"
 #include "matrix.hpp"
 
-MatArray A, B, Result;
+Matrix A, B, Result;
 
 vector<fun_ptr> test_list =
     {
         loop,
         strassen,
-        parallel_d2c};
+        divide_and_conquar};
 
 bool initialize(int argc, char **argv)
 {
@@ -98,7 +98,7 @@ vector<TestCase> test_all()
     TestCase current_case;
 
     TestCase ref_case = run_and_measure_time(ref);
-    MatArray compare(Result);
+    Matrix compare(Result);
     ref_case.correctness = true;
     cases.push_back(ref_case);
 

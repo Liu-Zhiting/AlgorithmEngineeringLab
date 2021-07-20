@@ -69,4 +69,4 @@ void dump_result(vector<TestCase> &cases);
 
 const int ROOT_ID = 0;
 
-string ref(const Graph &graph, Solution &solution);
+string ref_BFS(const Graph &graph, Solution &solution);

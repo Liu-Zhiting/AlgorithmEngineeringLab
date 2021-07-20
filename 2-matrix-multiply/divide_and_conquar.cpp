@@ -1,7 +1,7 @@
 #include "utils.hpp"
 #include "matrix.hpp"
 
-string parallel_d2c(const MatArray& left, const MatArray& right, MatArray& result)
+string divide_and_conquar(const Matrix& left, const Matrix& right, Matrix& result)
 {
     string func_name = __FUNCTION__;
 

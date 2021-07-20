@@ -6,7 +6,7 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 
-string ref(const MatArray& A, const MatArray& B, MatArray& result);
-string loop(const MatArray& A, const MatArray& B, MatArray& result);
-string parallel_d2c(const MatArray& A, const MatArray& B, MatArray& result);
-string strassen(const MatArray& A, const MatArray& B, MatArray& result);
+string ref(const Matrix& A, const Matrix& B, Matrix& result);
+string loop(const Matrix& A, const Matrix& B, Matrix& result);
+string divide_and_conquar(const Matrix& A, const Matrix& B, Matrix& result);
+string strassen(const Matrix& A, const Matrix& B, Matrix& result);

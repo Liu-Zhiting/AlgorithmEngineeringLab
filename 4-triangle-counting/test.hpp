@@ -6,4 +6,4 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 
-string ref(const Graph &graph, Solution &solution);
+string ref_BFS(const Graph &graph, Solution &solution);

@@ -1,7 +1,7 @@
 #include "utils.hpp"
 #include "matrix.hpp"
 
-MatArray::MatArray(const MatArray& other):size(other.size),data(nullptr)
+Matrix::Matrix(const Matrix& other):size(other.size),data(nullptr)
 {
     initialize();
     for(int i = 0; i < size; i++)
@@ -9,13 +9,13 @@ MatArray::MatArray(const MatArray& other):size(other.size),data(nullptr)
             data[i][j] = other.data[i][j];
 }
 
-bool MatArray::operator==(const MatArray& other) const
+bool Matrix::operator==(const Matrix& other) const
 {
     if(size != other.size) return false;
     return (0 == memcmp(data,other.data,size));
 }
 
-MatArray& MatArray::operator=(const MatArray& other)
+Matrix& Matrix::operator=(const Matrix& other)
 {
     if(this == &other) return *this;
     
@@ -27,7 +27,7 @@ MatArray& MatArray::operator=(const MatArray& other)
     return *this;
 }
 
-void MatArray::initialize()
+void Matrix::initialize()
 {
     if(nullptr != data) return;
     if(size <= 0) return;
@@ -41,7 +41,7 @@ void MatArray::initialize()
         
 }
 
-void MatArray::dispose()
+void Matrix::dispose()
 {
     if(nullptr == data) return;
     for(int i = 0; i < size; i++)
@@ -50,20 +50,20 @@ void MatArray::dispose()
     data = nullptr;
 }
 
-void MatArray::clear()
+void Matrix::clear()
 {
     for(int i = 0; i < size; i++)
         memset(data[i], 0, size * sizeof(int32_t));
 }
 
-void MatArray::resize(uint32_t size)
+void Matrix::resize(uint32_t size)
 {
     this->dispose();
     this->size = size;
     this->initialize();
 }
 
-bool MatArray::load_data_text(const char* filename)
+bool Matrix::load_data_text(const char* filename)
 {
     if(nullptr != data) return false;
 
@@ -78,7 +78,7 @@ bool MatArray::load_data_text(const char* filename)
     return true;
 }
 
-bool MatArray::load_data_binary(const char* filename)
+bool Matrix::load_data_binary(const char* filename)
 {
     if(nullptr != data) return false;
 

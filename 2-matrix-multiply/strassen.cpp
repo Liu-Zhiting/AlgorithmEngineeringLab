@@ -1,7 +1,7 @@
 #include "utils.hpp"
 #include "matrix.hpp"
 
-string strassen(const MatArray& left, const MatArray& right, MatArray& result)
+string strassen(const Matrix& left, const Matrix& right, Matrix& result)
 {
     string func_name = __FUNCTION__;
 

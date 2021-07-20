@@ -11,7 +11,7 @@
 
 2. 矩阵乘法
 
-3. 并行BFS
+3. BFS
 
 4. TriangleCounting
 

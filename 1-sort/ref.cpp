@@ -7,7 +7,7 @@ int cmp_int32(const void * a,const void * b)
     return (*(int32_t*)a - *(int32_t*)b);
 }
 
-string ref(SortArray& result)
+string ref_sort(Array& result)
 {
     string func_name = __FUNCTION__;
 

@@ -76,7 +76,7 @@ vector<TestCase> test_all()
     vector<TestCase> cases;
     TestCase current_case;
 
-    TestCase ref_case = run_and_measure_time(ref);
+    TestCase ref_case = run_and_measure_time(ref_BFS);
     Solution compare(TheSolution);
     ref_case.correctness = true;
     cases.push_back(ref_case);

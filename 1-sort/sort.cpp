@@ -1,6 +1,6 @@
 #include "utils.hpp"
 
-void SortArray::dispose()
+void Array::dispose()
 {
     if (nullptr == data)
         return;
@@ -8,21 +8,21 @@ void SortArray::dispose()
     data = nullptr;
 }
 
-SortArray::SortArray(const SortArray &other)
+Array::Array(const Array &other)
 {
     size = other.size;
     data = new int32_t[other.size];
     memcpy(data, other.data, other.size);
 }
 
-bool SortArray::operator==(const SortArray &other) const
+bool Array::operator==(const Array &other) const
 {
     if (size != other.size)
         return false;
     return (0 == memcmp(data, other.data, size));
 }
 
-SortArray &SortArray::operator=(const SortArray &other)
+Array &Array::operator=(const Array &other)
 {
     if (this == &other)
         return *this;
@@ -33,7 +33,7 @@ SortArray &SortArray::operator=(const SortArray &other)
     return *this;
 }
 
-bool SortArray::load_data_text(const char *filename)
+bool Array::load_data_text(const char *filename)
 {
     if (nullptr != data)
         return false;
@@ -48,7 +48,7 @@ bool SortArray::load_data_text(const char *filename)
     return true;
 }
 
-bool SortArray::load_data_binary(const char *filename)
+bool Array::load_data_binary(const char *filename)
 {
     if (nullptr != data)
         return false;

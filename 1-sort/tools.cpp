@@ -1,11 +1,11 @@
 #include "utils.hpp"
 
-SortArray Source,Result;
+Array Source,Result;
 
 vector<fun_ptr> test_list = 
 {
-    parallel_merge,
-    parallel_quick
+    merge_sort,
+    quick_sort
 };
 
 bool initialize(int argc, char** argv)
@@ -73,8 +73,8 @@ vector<TestCase> test_all()
     vector<TestCase> cases;
     TestCase current_case;
 
-    TestCase ref_case = run_and_measure_time(ref);
-    SortArray compare(Result);
+    TestCase ref_case = run_and_measure_time(ref_sort);
+    Array compare(Result);
     ref_case.correctness = true;
     cases.push_back(ref_case);
     

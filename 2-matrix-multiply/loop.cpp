@@ -1,7 +1,7 @@
 #include "utils.hpp"
 #include "matrix.hpp"
 
-string loop(const MatArray& left, const MatArray& right, MatArray& result)
+string loop(const Matrix& left, const Matrix& right, Matrix& result)
 {
     string func_name = __FUNCTION__;
 

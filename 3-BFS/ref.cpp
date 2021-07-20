@@ -3,7 +3,7 @@
 #include <queue>
 #include <bitset>
 
-string ref(const Graph &graph, Solution &solution)
+string ref_BFS(const Graph &graph, Solution &solution)
 {
     string func_name = __FUNCTION__;
 

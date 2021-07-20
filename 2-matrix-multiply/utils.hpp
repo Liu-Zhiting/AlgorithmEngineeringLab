@@ -23,8 +23,8 @@
 
 using namespace std;
 
-class MatArray;
-typedef string (*fun_ptr)(const MatArray& A, const MatArray& B, MatArray& result);
+class Matrix;
+typedef string (*fun_ptr)(const Matrix& A, const Matrix& B, Matrix& result);
 struct TestCase
 {
     string name;
