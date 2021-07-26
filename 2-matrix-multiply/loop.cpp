@@ -1,7 +1,6 @@
 #include "utils.hpp"
-#include "matrix.hpp"
 
-void loop(const Matrix& left, const Matrix& right, Matrix& result)
+void loop(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size)
 {
     // Code here
 }

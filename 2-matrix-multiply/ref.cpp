@@ -1,10 +1,9 @@
 #include "utils.hpp"
-#include "matrix.hpp"
 
-void ref(const Matrix& left, const Matrix& right, Matrix& result)
+void ref(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size)
 {
-    parallel_for (int i = 0; i < left.size; i++)
-        parallel_for (int k = 0; k < result.size; k++)
-            for(int j = 0; j < right.size; j++)
-                result.data[i][j] += left.data[i][k] * right.data[k][j];
+    parallel_for (int i = 0; i < size; i++)
+        parallel_for (int k = 0; k < size; k++)
+            for(int j = 0; j < size; j++)
+                c[i][j] += a[i][k] * b[k][j];
 }

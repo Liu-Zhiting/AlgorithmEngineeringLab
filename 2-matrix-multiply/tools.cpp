@@ -56,13 +56,13 @@ bool initialize(int argc, char **argv)
         return false;
     }
 
-    if (A.size != B.size)
+    if (A.get_size() != B.get_size())
     {
         cerr << "A.size != B.size" << endl;
         return false;
     }
 
-    C.resize(A.size);
+    C.resize(A.get_size());
 
     return true;
 }
@@ -76,7 +76,8 @@ TestResult run_and_measure_time(TestCase test_case)
     {
         C.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        test_case.func(A, B, C);
+        // test_case.func(A, B, C);
+        C.multiply_by_func(A,B,test_case.func);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
         test_result.time = time_span.count();
