@@ -1,10 +1,8 @@
 #include "utils.hpp"
 
 
-string quick_sort(Array& result)
+void quick_sort(int32_t* data,uint32_t size)
 {
-    string func_name = __FUNCTION__;
 
-    
-    return func_name;
+
 }

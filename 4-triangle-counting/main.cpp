@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     int max_threads = __cilkrts_get_nworkers();
 
     cout << "============================================================" << endl;
-    cout << "==============      Parallel Course Lab      ===============" << endl;
+    cout << "===========      Algorithm Engineering Lab      ============" << endl;
     cout << "============================================================" << endl;
     cout << "Project 4: Triangle Counting" << endl
          << endl;
@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     {
         sprintf(nworkers, "%d", current_threads);
         __cilkrts_set_param("nworkers", nworkers);
-        vector<TestCase> test_result = test_all();
+        vector<TestResult> test_result = test_all();
         dump_result(test_result);
         __cilkrts_end_cilk();
         current_threads <<= 1;
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     {
         sprintf(nworkers, "%d", current_threads);
         __cilkrts_set_param("nworkers", nworkers);
-        vector<TestCase> test_result = test_all();
+        vector<TestResult> test_result = test_all();
         dump_result(test_result);
     }
 

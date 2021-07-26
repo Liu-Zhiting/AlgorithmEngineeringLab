@@ -7,11 +7,7 @@ int cmp_int32(const void * a,const void * b)
     return (*(int32_t*)a - *(int32_t*)b);
 }
 
-string ref_sort(Array& result)
+void ref_sort(int32_t* data,uint32_t size)
 {
-    string func_name = __FUNCTION__;
-
-    qsort(result.data,result.size,sizeof(int32_t),cmp_int32);
-    
-    return func_name;
+    qsort(data,size,sizeof(int32_t),cmp_int32);   
 }

@@ -2,10 +2,10 @@
 
 Array Source,Result;
 
-vector<fun_ptr> test_list = 
+vector<TestCase> test_list_new = 
 {
-    merge_sort,
-    quick_sort
+    {"merge_sort",merge_sort},
+    {"quick_sort",quick_sort}
 };
 
 bool initialize(int argc, char** argv)
@@ -42,20 +42,19 @@ bool initialize(int argc, char** argv)
     return true;
 }
 
-TestCase run_and_measure_time(fun_ptr func)
+TestResult run_and_measure_time(TestCase test_case)
 {
-    TestCase tc;
-    tc.func = func;
-    tc.name = "[unknown]";
+    TestResult tc;
+    tc.name = test_case.name;
     tc.nworkers = __cilkrts_get_nworkers();
     try
     {
         Result = Source;
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        string func_name = func(Result);
+        // string func_name = func(Result);
+        Result.sort_with_func(test_case.func);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-        tc.name = func_name;
         tc.time = time_span.count();
         return tc;
     }
@@ -68,27 +67,28 @@ TestCase run_and_measure_time(fun_ptr func)
     }
 }
 
-vector<TestCase> test_all()
+vector<TestResult> test_all()
 {
-    vector<TestCase> cases;
-    TestCase current_case;
+    vector<TestResult> results;
+    TestResult current_result;
 
-    TestCase ref_case = run_and_measure_time(ref_sort);
+    TestCase ref_case = {"ref_sort",ref_sort};
+    TestResult ref_result = run_and_measure_time(ref_case);
     Array compare(Result);
-    ref_case.correctness = true;
-    cases.push_back(ref_case);
+    ref_result.correctness = true;
+    results.push_back(ref_result);
     
-    for(int i = 0; i < test_list.size(); i++)
+    for(int i = 0; i < test_list_new.size(); i++)
     {
-        current_case = run_and_measure_time(test_list[i]);
-        current_case.correctness = (Result == compare);
-        cases.push_back(current_case);
+        current_result = run_and_measure_time(test_list_new[i]);
+        current_result.correctness = (Result == compare);
+        results.push_back(current_result);
     }
 
-    return cases;
+    return results;
 }
 
-void dump_result(vector<TestCase>& cases)
+void dump_result(vector<TestResult>& cases)
 {
     const int TAB_WIDTH = 12;
     cout << left;

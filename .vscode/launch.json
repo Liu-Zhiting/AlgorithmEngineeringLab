@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/1-sort/sort",
             "args": [
-                "${workspaceFolder}/1-sort/data/array_65535_7.txt",
+                "${workspaceFolder}/1-sort/data/array_65536_7.txt",
                 "text"
             ],
             "stopAtEntry": false,

@@ -47,18 +47,18 @@ public:
 };
 
 typedef string (*fun_ptr)(const Graph &graph, uint32_t& result);
-typedef struct TestCase
+typedef struct TestResult
 {
     string name;
     int nworkers;
     double time;
     bool correctness;
     fun_ptr func;
-} TestCase;
+} TestResult;
 
 bool initialize(int argc, char **argv);
-TestCase run_and_measure_time(fun_ptr func);
-vector<TestCase> test_all();
-void dump_result(vector<TestCase> &cases);
+TestResult run_and_measure_time(fun_ptr func);
+vector<TestResult> test_all();
+void dump_result(vector<TestResult> &cases);
 
 string ref(const Graph &graph, uint32_t& result);

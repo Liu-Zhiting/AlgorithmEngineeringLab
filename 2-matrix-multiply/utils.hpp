@@ -25,7 +25,7 @@ using namespace std;
 
 class Matrix;
 typedef string (*fun_ptr)(const Matrix& A, const Matrix& B, Matrix& result);
-struct TestCase
+struct TestResult
 {
     string name;
     int nworkers;
@@ -33,11 +33,11 @@ struct TestCase
     bool correctness;
     fun_ptr func;
 };
-typedef struct TestCase TestCase;
+typedef struct TestResult TestResult;
 
 bool initialize(int argc, char** argv);
-TestCase run_and_measure_time(fun_ptr func);
-vector<TestCase> test_all();
-void dump_result(vector<TestCase>& cases);
+TestResult run_and_measure_time(fun_ptr func);
+vector<TestResult> test_all();
+void dump_result(vector<TestResult>& cases);
 
 

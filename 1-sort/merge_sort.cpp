@@ -1,9 +1,8 @@
 #include "utils.hpp"
 
-string merge_sort(Array& result)
+void merge_sort(int32_t* data,uint32_t size)
 {
-    string func_name = __FUNCTION__;
 
-    
-    return func_name;
+
+
 }

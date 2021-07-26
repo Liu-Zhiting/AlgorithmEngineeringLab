@@ -8,7 +8,7 @@ vector<fun_ptr> test_list =
     {
         loop,
         strassen,
-        divide_and_conquar};
+        divide_and_conquer};
 
 bool initialize(int argc, char **argv)
 {
@@ -66,9 +66,9 @@ bool initialize(int argc, char **argv)
     return true;
 }
 
-TestCase run_and_measure_time(fun_ptr func)
+TestResult run_and_measure_time(fun_ptr func)
 {
-    TestCase tc;
+    TestResult tc;
     tc.func = func;
     tc.name = "[unknown]";
     tc.nworkers = __cilkrts_get_nworkers();
@@ -92,12 +92,12 @@ TestCase run_and_measure_time(fun_ptr func)
     }
 }
 
-vector<TestCase> test_all()
+vector<TestResult> test_all()
 {
-    vector<TestCase> cases;
-    TestCase current_case;
+    vector<TestResult> cases;
+    TestResult current_case;
 
-    TestCase ref_case = run_and_measure_time(ref);
+    TestResult ref_case = run_and_measure_time(ref);
     Matrix compare(Result);
     ref_case.correctness = true;
     cases.push_back(ref_case);
@@ -112,7 +112,7 @@ vector<TestCase> test_all()
     return cases;
 }
 
-void dump_result(vector<TestCase> &cases)
+void dump_result(vector<TestResult> &cases)
 {
     const int TAB_WIDTH = 12;
     cout << left;

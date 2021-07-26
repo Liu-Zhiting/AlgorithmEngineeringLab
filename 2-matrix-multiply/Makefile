@@ -8,7 +8,10 @@ TARGET = matrixMul
 BIN_TARGET = ${DIR_BIN}/${TARGET}
  
 CC = clang++
-CFLAGS = -fcilkplus -g
+# CC = g++
+
+CFLAGS = -g -fcilkplus
+# CFLAGS = -fcilkplus -O2
 
 ${BIN_TARGET}:${SRC}
 	$(CC) $(CFLAGS) $(SRC) -o ${BIN_TARGET}
