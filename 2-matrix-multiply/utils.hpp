@@ -24,19 +24,25 @@
 using namespace std;
 
 class Matrix;
-typedef string (*fun_ptr)(const Matrix& A, const Matrix& B, Matrix& result);
+typedef void (*fun_ptr)(const Matrix& A, const Matrix& B, Matrix& result);
+
+typedef struct TestCase
+{
+    string name;
+    fun_ptr func;
+} TestCase;
+
 struct TestResult
 {
     string name;
     int nworkers;
     double time;
     bool correctness;
-    fun_ptr func;
 };
 typedef struct TestResult TestResult;
 
 bool initialize(int argc, char** argv);
-TestResult run_and_measure_time(fun_ptr func);
+TestResult run_and_measure_time(TestCase);
 vector<TestResult> test_all();
 void dump_result(vector<TestResult>& cases);
 

@@ -2,13 +2,14 @@
 #include "test.hpp"
 #include "matrix.hpp"
 
-Matrix A, B, Result;
+Matrix A, B, C;
 
-vector<fun_ptr> test_list =
-    {
-        loop,
-        strassen,
-        divide_and_conquer};
+vector<TestCase> test_list =
+{
+    {"loop",loop},
+    {"strassen",strassen},
+    {"divide_and_conquer",divide_and_conquer}
+};
 
 bool initialize(int argc, char **argv)
 {
@@ -61,55 +62,54 @@ bool initialize(int argc, char **argv)
         return false;
     }
 
-    Result.resize(A.size);
+    C.resize(A.size);
 
     return true;
 }
 
-TestResult run_and_measure_time(fun_ptr func)
+TestResult run_and_measure_time(TestCase test_case)
 {
-    TestResult tc;
-    tc.func = func;
-    tc.name = "[unknown]";
-    tc.nworkers = __cilkrts_get_nworkers();
+    TestResult test_result;
+    test_result.name = test_case.name;
+    test_result.nworkers = __cilkrts_get_nworkers();
     try
     {
-        Result.clear();
+        C.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        string func_name = func(A, B, Result);
+        test_case.func(A, B, C);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-        tc.name = func_name;
-        tc.time = time_span.count();
-        return tc;
+        test_result.time = time_span.count();
+        return test_result;
     }
     catch (const std::exception &e)
     {
-        cerr << "An error occurred while running " << tc.name << endl;
+        cerr << "An error occurred while running " << test_result.name << endl;
         cerr << e.what() << endl;
-        tc.time = NAN;
-        return tc;
+        test_result.time = NAN;
+        return test_result;
     }
 }
 
 vector<TestResult> test_all()
 {
-    vector<TestResult> cases;
-    TestResult current_case;
+    vector<TestResult> results;
+    TestResult current_result;
 
-    TestResult ref_case = run_and_measure_time(ref);
-    Matrix compare(Result);
-    ref_case.correctness = true;
-    cases.push_back(ref_case);
+    TestCase ref_case = {"ref",ref};
+    TestResult ref_result = run_and_measure_time(ref_case);
+    const Matrix compare(C);
+    ref_result.correctness = true;
+    results.push_back(ref_result);
 
     for (int i = 0; i < test_list.size(); i++)
     {
-        current_case = run_and_measure_time(test_list[i]);
-        current_case.correctness = (Result == compare);
-        cases.push_back(current_case);
+        current_result = run_and_measure_time(test_list[i]);
+        current_result.correctness = (compare == C);
+        results.push_back(current_result);
     }
 
-    return cases;
+    return results;
 }
 
 void dump_result(vector<TestResult> &cases)
