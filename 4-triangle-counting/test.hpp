@@ -6,4 +6,23 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 
-string ref_BFS(const Graph &graph, Solution &solution);
+struct TestCase
+{
+    string name;
+    fun_ptr func;
+};
+
+struct TestResult
+{
+    string name;
+    int nworkers;
+    double time;
+    bool correctness;
+    fun_ptr func;
+};
+
+TestResult run_and_measure_time(TestCase);
+vector<TestResult> test_all();
+void dump_result(vector<TestResult> &cases);
+
+uint32_t ref(const Graph &graph);

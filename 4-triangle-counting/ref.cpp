@@ -1,10 +1,9 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 
-string ref(const Graph &graph, uint32_t& result)
+uint32_t ref(const Graph &graph)
 {
-    string func_name = __FUNCTION__;
-
+    uint32_t result = 0;
     uint32_t **A = graph.convert_to_adjoint_matrix();
     uint32_t **A2 = new uint32_t *[graph.vertex_count];
     for (int i = 0; i < graph.vertex_count; i++)
@@ -31,5 +30,6 @@ string ref(const Graph &graph, uint32_t& result)
     }
     delete[] A;
     delete[] A2;
-    return func_name;
+
+    return result;
 }
