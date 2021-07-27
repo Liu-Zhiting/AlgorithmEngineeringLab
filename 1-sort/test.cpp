@@ -1,4 +1,6 @@
 #include "utils.hpp"
+#include "test.hpp"
+#include "array.hpp"
 
 Array Source,Result;
 

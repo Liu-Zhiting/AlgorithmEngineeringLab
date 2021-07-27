@@ -1,6 +1,7 @@
 #include "utils.hpp"
 #include "test.hpp"
 #include "adjoint_list.hpp"
+#include "solution.hpp"
 
 AdjointList Source;
 Solution TheSolution;

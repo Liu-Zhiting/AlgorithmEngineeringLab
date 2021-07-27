@@ -1,5 +1,6 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
+#include "solution.hpp"
 
 void Solution::initialize()
 {
@@ -19,7 +20,7 @@ void Solution::dispose()
     distance = nullptr;
 }
 
-Solution::Solution(const Solution &other) : size(other.size),distance(nullptr)
+Solution::Solution(const Solution &other) : size(other.size), distance(nullptr)
 {
     if (this == &other)
         return;
@@ -50,4 +51,10 @@ Solution &Solution::operator=(const Solution &other)
     initialize();
     memcpy(distance, other.distance, size * sizeof(uint32_t));
     return *this;
+}
+
+void Solution::dump() const
+{
+    for (int i = 0; i < size; i++)
+        cout << "distance[" << i << "] = " << distance[i] << endl;
 }

@@ -1,5 +1,6 @@
 #include "utils.hpp"
 #include "matrix.hpp"
+#include <cassert>
 
 Matrix::Matrix(const Matrix &other) : size(other.size), data(nullptr)
 {
@@ -102,5 +103,6 @@ bool Matrix::load_data_binary(const char *filename)
 void Matrix::multiply_by_func(const Matrix &left, const Matrix &right, fun_ptr func)
 {
     assert(left.size == right.size);
+    assert(size == right.size);
     func(left.data, right.data, data, size);
 }

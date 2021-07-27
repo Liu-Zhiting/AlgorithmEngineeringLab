@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "array.hpp"
 
 void Array::dispose()
 {

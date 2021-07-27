@@ -1,5 +1,6 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
+#include "solution.hpp"
 #include <queue>
 
 void ref_BFS(const AdjointList &graph, Solution &solution)

@@ -1,6 +1,10 @@
 #include "utils.hpp"
 
-void ref(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size)
+void ref(
+    const int32_t *const *const a,
+    const int32_t *const *const b,
+    int32_t *const *const c,
+    const uint32_t size)
 {
     parallel_for (int i = 0; i < size; i++)
         parallel_for (int k = 0; k < size; k++)

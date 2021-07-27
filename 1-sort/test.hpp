@@ -2,9 +2,9 @@
 #include "utils.hpp"
 #include <iomanip>
 #include <chrono>
-using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
+using std::chrono::high_resolution_clock;
 
 struct TestCase
 {
@@ -24,5 +24,6 @@ TestResult run_and_measure_time(TestCase);
 vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
-void ref_BFS(const AdjointList &graph, Solution &solution);
-void buttom_up(const AdjointList &graph, Solution &solution);
+void ref_sort(int32_t* data,uint32_t size);
+void merge_sort(int32_t* data,uint32_t size);
+void quick_sort(int32_t* data,uint32_t size);

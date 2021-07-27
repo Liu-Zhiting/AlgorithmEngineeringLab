@@ -7,7 +7,7 @@ Graph Source;
 uint32_t Result = 0;
 
 vector<fun_ptr> test_list =
-    {
+{
 
 };
 

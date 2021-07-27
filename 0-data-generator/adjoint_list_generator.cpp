@@ -32,8 +32,8 @@ int main(int argc, char **argv)
             throw argv[2];
         mode = argv[2];
         int vertex_vount = atoi(argv[3]);
-        graph.vertex_count = vertex_vount;
-        graph.initialize();
+        AdjointList g(vertex_vount);
+        graph = g;
     }
     catch (char *argument)
     {

@@ -176,7 +176,7 @@ AdjointList &AdjointList::operator=(const AdjointList &other)
     return *this;
 }
 
-bool AdjointList::add_edge(int from, int to)
+bool AdjointList::add_edge(const int from, const int to)
 {
     if (search_edge(from, to))
         return false;
@@ -189,7 +189,7 @@ bool AdjointList::add_edge(int from, int to)
     return true;
 }
 
-bool AdjointList::search_edge(int from, int to) const
+bool AdjointList::search_edge(const int from, const int to) const
 {
     for (Node *p = vertex[from].next; p != nullptr; p = p->next)
         if (p->value == to)
@@ -277,4 +277,22 @@ void AdjointList::dump_adjoint_list() const
         }
         cout << endl;
     }
+}
+
+uint32_t **AdjointList::convert_to_adjoint_matrix() const
+{
+    uint32_t **result = new uint32_t *[vertex_count];
+    parallel_for(int i = 0; i < vertex_count; i++)
+    {
+        result[i] = new uint32_t[vertex_count];
+        memset(result[i], 0, vertex_count * sizeof(uint32_t));
+    }
+    parallel_for(int i = 0; i < vertex_count; i++)
+    {
+        for (Node *p = vertex[i].next; p != nullptr; p = p->next)
+        {
+            result[i][p->value] = 1;
+        }
+    }
+    return result;
 }
