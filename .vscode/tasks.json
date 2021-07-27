@@ -26,9 +26,9 @@
             }
         },
         {
-            "label": "make-parallel-BFS", 
+            "label": "make-BFS", 
             "type": "shell",  
-            "command": "cd ${workspaceFolder}/3-parallel-BFS && make",
+            "command": "cd ${workspaceFolder}/3-BFS && make",
             "group": { 
                 "kind": "build",
                 "isDefault": true   

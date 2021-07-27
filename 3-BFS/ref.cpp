@@ -1,12 +1,9 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 #include <queue>
-#include <bitset>
 
-string ref_BFS(const Graph &graph, Solution &solution)
+void ref_BFS(const AdjointList &graph, Solution &solution)
 {
-    string func_name = __FUNCTION__;
-
     queue<int> q;
     vector<bool> visited(graph.vertex_count);
     parallel_for(int i = 0; i < graph.vertex_count; i++)
@@ -27,6 +24,4 @@ string ref_BFS(const Graph &graph, Solution &solution)
         }
         q.pop();
     }
-
-    return func_name;
 }

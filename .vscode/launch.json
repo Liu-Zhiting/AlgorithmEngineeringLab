@@ -51,12 +51,12 @@
             "preLaunchTask": "make-matrix-multiply"
         },
         {
-            "name": "(gdb) parallel-BFS",
+            "name": "(gdb) BFS",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/3-parallel-BFS/parallelBFS",
+            "program": "${workspaceFolder}/3-BFS/bfs",
             "args": [
-                "${workspaceFolder}/3-parallel-BFS/data/7.txt",
+                "${workspaceFolder}/3-BFS/data/7.txt",
                 "text"
             ],
             "stopAtEntry": false,
@@ -72,7 +72,7 @@
                 }
             ],
             "miDebuggerPath": "/usr/bin/gdb",
-            "preLaunchTask": "make-parallel-BFS"
+            "preLaunchTask": "make-BFS"
         }
     ]
 }

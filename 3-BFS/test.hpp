@@ -6,4 +6,5 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 
-string ref_BFS(const Graph &graph, Solution &solution);
+void ref_BFS(const AdjointList &graph, Solution &solution);
+void buttom_up(const AdjointList &graph, Solution &solution);

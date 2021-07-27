@@ -34,6 +34,7 @@ void AdjointList::dispose()
         }
     }
     delete[] vertex;
+    vertex = nullptr;
     if (nullptr == out_degree)
         return;
     delete[] out_degree;

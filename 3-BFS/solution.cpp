@@ -19,7 +19,7 @@ void Solution::dispose()
     distance = nullptr;
 }
 
-Solution::Solution(const Solution &other) : size(other.size)
+Solution::Solution(const Solution &other) : size(other.size),distance(nullptr)
 {
     if (this == &other)
         return;
@@ -27,7 +27,7 @@ Solution::Solution(const Solution &other) : size(other.size)
     memcpy(distance, other.distance, other.size * sizeof(uint32_t));
 }
 
-void Solution::attach_to_graph(const Graph &graph)
+void Solution::attach_to_graph(const AdjointList &graph)
 {
     dispose();
     size = graph.vertex_count;

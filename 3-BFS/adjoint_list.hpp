@@ -13,9 +13,8 @@ public:
     Node *vertex;
 
     AdjointList() : vertex_count(0), out_degree(nullptr), vertex(nullptr){};
-    AdjointList(int vertex_count) : vertex_count(vertex_count) { initialize(); };
+    AdjointList(int vertex_count) : vertex_count(vertex_count), out_degree(nullptr), vertex(nullptr) { initialize(); };
     AdjointList(const AdjointList &other);
-    AdjointList(const char *binary_filename);
     ~AdjointList() { dispose(); };
 
     bool operator==(const AdjointList &other) const;

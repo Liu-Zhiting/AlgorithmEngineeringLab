@@ -2,12 +2,12 @@
 #include "test.hpp"
 #include "adjoint_list.hpp"
 
-Graph Source;
+AdjointList Source;
 Solution TheSolution;
 
-vector<fun_ptr> test_list =
-    {
-
+vector<TestCase> test_list =
+{
+    {"buttom_up",buttom_up}
 };
 
 bool initialize(int argc, char **argv)
@@ -45,50 +45,49 @@ bool initialize(int argc, char **argv)
     return true;
 }
 
-TestResult run_and_measure_time(fun_ptr func)
+TestResult run_and_measure_time(TestCase test_case)
 {
-    TestResult tc;
-    tc.func = func;
-    tc.name = "[unknown]";
-    tc.nworkers = __cilkrts_get_nworkers();
+    TestResult test_result;
+    test_result.name = test_case.name;
+    test_result.nworkers = __cilkrts_get_nworkers();
     try
     {
         TheSolution.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        string func_name = func(Source, TheSolution);
+        test_case.func(Source, TheSolution);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-        tc.name = func_name;
-        tc.time = time_span.count();
-        return tc;
+        test_result.time = time_span.count();
+        return test_result;
     }
     catch (const std::exception &e)
     {
-        cerr << "An error occurred while running " << tc.name << endl;
+        cerr << "An error occurred while running " << test_result.name << endl;
         cerr << e.what() << endl;
-        tc.time = NAN;
-        return tc;
+        test_result.time = NAN;
+        return test_result;
     }
 }
 
 vector<TestResult> test_all()
 {
-    vector<TestResult> cases;
-    TestResult current_case;
+    vector<TestResult> results;
+    TestResult current_result;
 
-    TestResult ref_case = run_and_measure_time(ref_BFS);
+    TestCase ref_case = {"ref_BFS",ref_BFS};
+    TestResult ref_result = run_and_measure_time(ref_case);
     Solution compare(TheSolution);
-    ref_case.correctness = true;
-    cases.push_back(ref_case);
+    ref_result.correctness = true;
+    results.push_back(ref_result);
 
     for (int i = 0; i < test_list.size(); i++)
     {
-        current_case = run_and_measure_time(test_list[i]);
-        current_case.correctness = (TheSolution == compare);
-        cases.push_back(current_case);
+        current_result = run_and_measure_time(test_list[i]);
+        current_result.correctness = (TheSolution == compare);
+        results.push_back(current_result);
     }
 
-    return cases;
+    return results;
 }
 
 void dump_result(vector<TestResult> &cases)
