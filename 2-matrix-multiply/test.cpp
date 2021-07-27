@@ -14,31 +14,14 @@ vector<TestCase> test_list =
 bool initialize(int argc, char **argv)
 {
     bool is_binary, is_text;
-    if (argc < 4)
+    if (argc < 3)
     {
-        cerr << "Usage: <path_to_matrixA> <path_to_matrixB> "
-                "<file_type:text|binary>"
-             << endl;
-        return false;
-    }
-    else
-    {
-        is_binary = !strcmp(argv[3], "binary");
-        is_text = !strcmp(argv[3], "text");
-    }
-
-    if ((!is_binary && !is_text) || (is_binary && is_text))
-    {
-        cerr << " Invalid argument <file_type>: " << argv[3] << endl;
+        cerr << "Usage: matrixMul <filename_A> <filename_B>"<< endl;
         return false;
     }
 
     bool load_result;
-    load_result = false;
-    if (is_binary)
-        load_result = A.load_data_binary(argv[1]);
-    if (is_text)
-        load_result = A.load_data_text(argv[1]);
+    load_result = A.load_data_binary(argv[1]);
     if (!load_result)
     {
         cerr << "Load failed" << endl;
@@ -46,10 +29,7 @@ bool initialize(int argc, char **argv)
     }
 
     load_result = false;
-    if (is_binary)
-        load_result = B.load_data_binary(argv[2]);
-    if (is_text)
-        load_result = B.load_data_text(argv[2]);
+    load_result = B.load_data_binary(argv[2]);
     if (!load_result)
     {
         cerr << "Load failed" << endl;

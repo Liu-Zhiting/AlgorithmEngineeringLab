@@ -26,9 +26,18 @@
             }
         },
         {
-            "label": "make-BFS", 
+            "label": "make-bfs", 
             "type": "shell",  
-            "command": "cd ${workspaceFolder}/3-BFS && make",
+            "command": "cd ${workspaceFolder}/3-bfs && make",
+            "group": { 
+                "kind": "build",
+                "isDefault": true   
+            }
+        },
+        {
+            "label": "make-triangle-counting", 
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/4-triangle-counting && make",
             "group": { 
                 "kind": "build",
                 "isDefault": true   

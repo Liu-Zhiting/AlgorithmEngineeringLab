@@ -13,29 +13,13 @@ vector<TestCase> test_list =
 bool initialize(int argc, char **argv)
 {
     bool is_binary, is_text;
-    if (argc < 3)
+    if (argc < 2)
     {
-        cerr << "Usage: <path_to_graph> <file_type:text|binary>" << endl;
-        return false;
-    }
-    else
-    {
-        is_binary = !strcmp(argv[2], "binary");
-        is_text = !strcmp(argv[2], "text");
-    }
-
-    if ((!is_binary && !is_text) || (is_binary && is_text))
-    {
-        cerr << " Invalid argument <file_type>: " << argv[2] << endl;
+        cerr << "Usage: triangle-counting <filename>" << endl;
         return false;
     }
 
-    bool load_result;
-    load_result = false;
-    if (is_binary)
-        load_result = Source.load_data_binary(argv[1]);
-    if (is_text)
-        load_result = Source.load_data_text(argv[1]);
+    bool load_result = Source.load_data_binary(argv[1]);
     if (!load_result)
     {
         cerr << "Load failed" << endl;

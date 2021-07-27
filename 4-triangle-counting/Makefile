@@ -3,7 +3,7 @@ DIR_BIN = .
 
 SRC = $(wildcard *.cpp)
 
-TARGET = triangleCounting
+TARGET = triangle-counting
 
 BIN_TARGET = ${DIR_BIN}/${TARGET}
  
