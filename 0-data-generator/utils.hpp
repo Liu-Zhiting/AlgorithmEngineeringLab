@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstring>
 #include <sstream>
+#include <map>
 #include "adjoint_list.hpp"
 
 #include "cilk/cilk.h"

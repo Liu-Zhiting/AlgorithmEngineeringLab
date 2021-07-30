@@ -5,56 +5,25 @@ uint32_t size = 0, length = 0, mod = 1;
 ostringstream ostr;
 
 int file_type_id, mode_id;
-string mode;
+string mode, file_type;
 
-void generate_random(int32_t *result);
-void generate_sparse(int32_t *result);
-void generate_repeated(int32_t *result);
+map<string, void (*)(int32_t *)> func_map;
 
 void save_text(int32_t *result);
 void save_binary(int32_t *result);
 
-void (*generate[3])(int32_t *) = {
-    generate_random,
-    generate_sparse,
-    generate_repeated};
+void generate_random(int32_t *result);
+void generate_sparse(int32_t *result);
+void generate_repeated(int32_t *result);
+void generate_01(int32_t *result);
 
-void (*save[2])(int32_t *) = {
-    save_text,
-    save_binary};
+void init_func_map();
+void parse_args(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
-    if (argc < 5)
-    {
-        cerr << "Usage: <file_type:text|binary> <mode:random|sparse|repeated> <size> <length>" << endl;
-        return 1;
-    }
-    try
-    {
-        if (0 == strcmp(argv[1], "text"))
-            file_type_id = 0;
-        else if (0 == strcmp(argv[1], "binary"))
-            file_type_id = 1;
-        else
-            throw argv[1];
-        if (0 == strcmp(argv[2], "random"))
-            mode_id = 0;
-        else if (0 == strcmp(argv[2], "sparse"))
-            mode_id = 1;
-        else if (0 == strcmp(argv[2], "repeated"))
-            mode_id = 2;
-        else
-            throw argv[2];
-        mode = argv[2];
-        size = atoi(argv[3]);
-        length = atoi(argv[4]);
-    }
-    catch (char *argument)
-    {
-        cerr << "Argument \'" << argument << "\' invalid" << endl;
-        return 1;
-    }
+    init_func_map();
+    parse_args(argc, argv);
 
     for (int i = 0; i < length; i++)
         mod *= 10;
@@ -65,11 +34,46 @@ int main(int argc, char **argv)
     memset(array, 0, size * sizeof(int32_t));
     srand(time(NULL));
 
-    generate[mode_id](array);
-    save[file_type_id](array);
+    func_map.find(mode)->second(array);
+    func_map.find(file_type)->second(array);
 
     delete[] array;
     array = nullptr;
+}
+
+void init_func_map()
+{
+    func_map.insert(pair<string, void (*)(int32_t *)>("random", generate_random));
+    func_map.insert(pair<string, void (*)(int32_t *)>("sparse", generate_sparse));
+    func_map.insert(pair<string, void (*)(int32_t *)>("repeated", generate_repeated));
+    func_map.insert(pair<string, void (*)(int32_t *)>("01", generate_01));
+    func_map.insert(pair<string, void (*)(int32_t *)>("text", save_text));
+    func_map.insert(pair<string, void (*)(int32_t *)>("binary", save_binary));
+}
+
+void parse_args(int argc, char **argv)
+{
+    if (argc < 5)
+    {
+        cerr << "Usage: <file_type:text|binary> <mode:random|sparse|repeated|01> <size> <length>" << endl;
+        exit(1);
+    }
+    try
+    {
+        file_type = argv[1];
+        if (file_type != "text" && file_type != "binary")
+            throw argv[1];
+        mode = argv[2];
+        if (mode != "random" && mode != "sparse" && mode != "repeated" && mode != "01")
+            throw argv[2];
+        size = atoi(argv[3]);
+        length = atoi(argv[4]);
+    }
+    catch (char *argument)
+    {
+        cerr << "Argument \'" << argument << "\' invalid" << endl;
+        exit(1);
+    }
 }
 
 void save_text(int32_t *result)
@@ -101,8 +105,25 @@ void generate_random(int32_t *result)
 
 void generate_sparse(int32_t *result)
 {
+    parallel_for(int i = 0; i < size; i++)
+        result[i] = (rand() % 100 < 10) ? (rand() % mod) : 0;
 }
 
 void generate_repeated(int32_t *result)
 {
+    int candidate_size = ((size / 10 > 0) ? size / 10 : size);
+    int32_t *candidate = new int32_t[candidate_size];
+    parallel_for(int i = 0; i < candidate_size; i++)
+        candidate[i] = rand() % mod;
+    parallel_for(int i = 0; i < size; i++)
+        result[i] = candidate[rand() % candidate_size];
+
+    delete[] candidate;
+    candidate = nullptr;
+}
+
+void generate_01(int32_t *result)
+{
+    parallel_for(int i = 0; i < size; i++)
+        result[i] = i % 2;
 }
