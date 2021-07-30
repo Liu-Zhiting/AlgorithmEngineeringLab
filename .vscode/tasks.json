@@ -26,9 +26,18 @@
             }
         },
         {
+            "label": "make-page-rank", 
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/3-page-rank && make",
+            "group": { 
+                "kind": "build",
+                "isDefault": true   
+            }
+        },
+        {
             "label": "make-bfs", 
             "type": "shell",  
-            "command": "cd ${workspaceFolder}/3-bfs && make",
+            "command": "cd ${workspaceFolder}/4-bfs && make",
             "group": { 
                 "kind": "build",
                 "isDefault": true   

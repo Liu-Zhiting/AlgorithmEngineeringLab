@@ -3,7 +3,7 @@
 #include "solution.hpp"
 #include <queue>
 
-void ref_BFS(const AdjointList &graph, Solution &solution)
+void ref(const AdjointList &graph, Solution &solution)
 {
     queue<int> q;
     vector<bool> visited(graph.vertex_count);

@@ -24,5 +24,5 @@ TestResult run_and_measure_time(TestCase);
 vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
-void ref_BFS(const AdjointList &graph, Solution &solution);
+void ref(const AdjointList &graph, Solution &solution);
 void buttom_up(const AdjointList &graph, Solution &solution);

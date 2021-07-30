@@ -8,7 +8,6 @@ Solution TheSolution;
 
 vector<TestCase> test_list =
 {
-    {"buttom_up",buttom_up}
 };
 
 bool initialize(int argc, char **argv)
@@ -16,7 +15,7 @@ bool initialize(int argc, char **argv)
     bool is_binary, is_text;
     if (argc < 2)
     {
-        cerr << "Usage: bfs <filename>" << endl;
+        cerr << "Usage: page-rank <filename>" << endl;
         return false;
     }
 
@@ -60,7 +59,7 @@ vector<TestResult> test_all()
     vector<TestResult> results;
     TestResult current_result;
 
-    TestCase ref_case = {"ref_BFS",ref_BFS};
+    TestCase ref_case = {"ref",ref};
     TestResult ref_result = run_and_measure_time(ref_case);
     Solution compare(TheSolution);
     ref_result.correctness = true;

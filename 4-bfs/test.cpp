@@ -1,13 +1,14 @@
 #include "utils.hpp"
 #include "test.hpp"
-#include "array.hpp"
+#include "adjoint_list.hpp"
+#include "solution.hpp"
 
-Array Source, Result;
+AdjointList Source;
+Solution TheSolution;
 
-vector<TestCase> test_list_new =
+vector<TestCase> test_list =
 {
-    {"merge_sort", merge_sort},
-    {"quick_sort", quick_sort}
+    {"buttom_up",buttom_up}
 };
 
 bool initialize(int argc, char **argv)
@@ -15,7 +16,7 @@ bool initialize(int argc, char **argv)
     bool is_binary, is_text;
     if (argc < 2)
     {
-        cerr << "Usage: sort <filename>" << endl;
+        cerr << "Usage: bfs <filename>" << endl;
         return false;
     }
 
@@ -25,32 +26,32 @@ bool initialize(int argc, char **argv)
         cerr << "Load failed" << endl;
         return false;
     }
-    Result = Source;
 
+    TheSolution.attach_to_graph(Source);
     return true;
 }
 
 TestResult run_and_measure_time(TestCase test_case)
 {
-    TestResult tc;
-    tc.name = test_case.name;
-    tc.nworkers = __cilkrts_get_nworkers();
+    TestResult test_result;
+    test_result.name = test_case.name;
+    test_result.nworkers = __cilkrts_get_nworkers();
     try
     {
-        Result = Source;
+        TheSolution.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        Result.sort_with_func(test_case.func);
+        test_case.func(Source, TheSolution);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-        tc.time = time_span.count();
-        return tc;
+        test_result.time = time_span.count();
+        return test_result;
     }
     catch (const std::exception &e)
     {
-        cerr << "An error occurred while running " << tc.name << endl;
+        cerr << "An error occurred while running " << test_result.name << endl;
         cerr << e.what() << endl;
-        tc.time = NAN;
-        return tc;
+        test_result.time = NAN;
+        return test_result;
     }
 }
 
@@ -59,16 +60,16 @@ vector<TestResult> test_all()
     vector<TestResult> results;
     TestResult current_result;
 
-    TestCase ref_case = {"ref", ref};
+    TestCase ref_case = {"ref",ref};
     TestResult ref_result = run_and_measure_time(ref_case);
-    Array compare(Result);
+    Solution compare(TheSolution);
     ref_result.correctness = true;
     results.push_back(ref_result);
 
-    for (int i = 0; i < test_list_new.size(); i++)
+    for (int i = 0; i < test_list.size(); i++)
     {
-        current_result = run_and_measure_time(test_list_new[i]);
-        current_result.correctness = (Result == compare);
+        current_result = run_and_measure_time(test_list[i]);
+        current_result.correctness = (TheSolution == compare);
         results.push_back(current_result);
     }
 
