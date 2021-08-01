@@ -1,5 +1,5 @@
 .PHONY:all
-all:array_generator matrix_generator adjoint_list_generator
+all:array_generator matrix_generator adjoint_list_generator graph_parser
 
 array_generator:array_generator.cpp
 	clang++ -g -fcilkplus array_generator.cpp -o array_generator
@@ -9,3 +9,6 @@ matrix_generator:matrix_generator.cpp
 
 adjoint_list_generator:adjoint_list_generator.cpp adjoint_list.cpp
 	clang++ -g -fcilkplus adjoint_list_generator.cpp adjoint_list.cpp -o adjoint_list_generator
+
+graph_parser:graph_parser.cpp adjoint_list.cpp
+	clang++ -g -fcilkplus graph_parser.cpp adjoint_list.cpp -o graph_parser

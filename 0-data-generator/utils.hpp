@@ -6,6 +6,8 @@
 #include <cstring>
 #include <sstream>
 #include <map>
+#include <vector>
+#include <algorithm>
 #include "adjoint_list.hpp"
 
 #include "cilk/cilk.h"

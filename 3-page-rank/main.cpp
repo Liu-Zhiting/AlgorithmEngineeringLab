@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     cout << "============================================================" << endl;
     cout << "===========      Algorithm Engineering Lab      ============" << endl;
     cout << "============================================================" << endl;
-    cout << "Project 3: Parallel BFS" << endl
+    cout << "Project 3: Page Rank" << endl
          << endl;
     while (current_threads <= max_threads)
     {

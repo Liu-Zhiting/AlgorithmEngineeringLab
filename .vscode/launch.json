@@ -98,9 +98,10 @@
             "name": "(gdb) triangle-counting",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/4-triangle-counting/triangle-counting",
+            "program": "${workspaceFolder}/5-triangle-counting/triangle-counting",
             "args": [
-                "${workspaceFolder}/data/adjoint_list_random_1024.bin"
+                // "${workspaceFolder}/data/adjoint_list_random_1024.bin"
+                "/mnt/d/adjoint_list_fb.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

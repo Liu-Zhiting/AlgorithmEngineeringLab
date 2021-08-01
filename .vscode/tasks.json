@@ -46,7 +46,7 @@
         {
             "label": "make-triangle-counting", 
             "type": "shell",  
-            "command": "cd ${workspaceFolder}/4-triangle-counting && make",
+            "command": "cd ${workspaceFolder}/5-triangle-counting && make",
             "group": { 
                 "kind": "build",
                 "isDefault": true   
