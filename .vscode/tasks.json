@@ -8,6 +8,15 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "make-data-generator",  
+            "type": "shell",  
+            "command": "cd ${workspaceFolder}/0-data-generator && make", 
+            "group": { 
+                "kind": "build",
+                "isDefault": true   
+            }
+        },
+        {
             "label": "make-sort",  
             "type": "shell",  
             "command": "cd ${workspaceFolder}/1-sort && make", 

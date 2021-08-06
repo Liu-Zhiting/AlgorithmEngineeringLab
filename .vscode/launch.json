@@ -2,12 +2,36 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "(gdb) graph-parser",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/0-data-generator/graph_parser",
+            "args": [
+                "SNAP",
+                "/mnt/c/Users/SMagic/Downloads/gplus_combined.txt_renumbered.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "make-data-generator"
+        },
+        {
             "name": "(gdb) sort",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/1-sort/sort",
             "args": [
-                "${workspaceFolder}/data/array_random_10000000_9.bin"
+                "${workspaceFolder}/data/array_repeated_20Mil.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -77,7 +101,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/4-bfs/bfs",
             "args": [
-                "${workspaceFolder}/data/adjoint_list_random_1024.bin"
+                "${workspaceFolder}/data/adjoint_list_gplus.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -100,8 +124,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/5-triangle-counting/triangle-counting",
             "args": [
-                // "${workspaceFolder}/data/adjoint_list_random_1024.bin"
-                "/mnt/d/adjoint_list_fb.bin"
+                "${workspaceFolder}/data/adjoint_list_random_1024.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
