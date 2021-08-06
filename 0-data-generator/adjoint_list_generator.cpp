@@ -7,7 +7,7 @@ ostringstream ostr;
 
 void generate_random(AdjointList &graph);
 
-void (*generate[2])(AdjointList &) = {
+void (*generate_func[2])(AdjointList &) = {
     generate_random};
 
 int main(int argc, char **argv)
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     }
     ostr << "adjoint_list_" << mode << '_' << graph.vertex_count;
 
-    generate[mode_id](graph);
+    generate_func[mode_id](graph);
     if (0 == file_type_id)
     {
         ostr << ".txt";

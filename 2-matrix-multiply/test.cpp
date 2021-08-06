@@ -16,7 +16,7 @@ bool initialize(int argc, char **argv)
     bool is_binary, is_text;
     if (argc < 3)
     {
-        cerr << "Usage: matrixMul <filename_A> <filename_B>"<< endl;
+        cerr << "Usage: matrix-mul <filename_A> <filename_B>"<< endl;
         return false;
     }
 

@@ -15,3 +15,7 @@ CFLAGS = -g -fcilkplus
 
 ${BIN_TARGET}:${SRC}
 	$(CC) $(CFLAGS) $(SRC) -o ${BIN_TARGET}
+
+.PHONY:clean
+clean:
+	rm $(TARGET)

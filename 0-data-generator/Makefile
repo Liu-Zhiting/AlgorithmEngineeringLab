@@ -1,5 +1,6 @@
+TARGET = array_generator matrix_generator adjoint_list_generator graph_parser
 .PHONY:all
-all:array_generator matrix_generator adjoint_list_generator graph_parser
+all:$(TARGET)
 
 array_generator:array_generator.cpp
 	clang++ -g -fcilkplus array_generator.cpp -o array_generator
@@ -12,3 +13,7 @@ adjoint_list_generator:adjoint_list_generator.cpp adjoint_list.cpp
 
 graph_parser:graph_parser.cpp adjoint_list.cpp
 	clang++ -g -fcilkplus graph_parser.cpp adjoint_list.cpp -o graph_parser
+
+.PHONY:clean
+clean:
+	rm $(TARGET)

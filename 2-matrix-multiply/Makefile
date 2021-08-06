@@ -3,7 +3,7 @@ DIR_BIN = .
 
 SRC = $(wildcard *.cpp)
 
-TARGET = matrixMul
+TARGET = matrix-mul
 
 BIN_TARGET = ${DIR_BIN}/${TARGET}
  
@@ -15,3 +15,7 @@ CFLAGS = -g -fcilkplus
 
 ${BIN_TARGET}:${SRC}
 	$(CC) $(CFLAGS) $(SRC) -o ${BIN_TARGET}
+
+.PHONY:clean
+clean:
+	rm $(TARGET)

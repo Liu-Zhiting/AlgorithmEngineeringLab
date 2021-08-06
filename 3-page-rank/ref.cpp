@@ -11,13 +11,13 @@ void ref(const AdjointList &graph, Solution &solution)
     double max_delta = 0.0, min_delta = INFINITY;
     int counter = 0;
     AdjointList graph_inv(graph.vertex_count);
-    for (int i = 0; i < graph.vertex_count; i++)
+    parallel_for (int i = 0; i < graph.vertex_count; i++)
         solution.value[i] = 1.0;
 
     // iterate to calculate page rank
     while (counter < 12 && (max_delta + min_delta) / 2 > THRESHOLD)
     {
-        for (int i = 0; i < graph.vertex_count; i++)
+        parallel_for (int i = 0; i < graph.vertex_count; i++)
         {
             double sum = 0.0;
             for (Node *p = graph.vertex[i].next; p != nullptr; p = p->next)   // 这里假定了数据为无向图
@@ -29,5 +29,6 @@ void ref(const AdjointList &graph, Solution &solution)
                 max_delta = tmp - solution.value[i];
             solution.value[i] = tmp;
         }
+        counter++;
     }
 }
