@@ -5,6 +5,7 @@
 
 AdjointList Source;
 Solution TheSolution;
+string timing_result = "";
 
 vector<TestCase> test_list =
 {
@@ -77,30 +78,44 @@ vector<TestResult> test_all()
 
 void dump_result(vector<TestResult> &cases)
 {
+    stringstream ss;
     const int TAB_WIDTH = 12;
-    cout << left;
+    // cout << left;
+    ss << left;
+    
     if (1 == cases[0].nworkers)
     {
-        cout << setw(TAB_WIDTH) << "Workers";
+        // cout << setw(TAB_WIDTH) << "Workers";
+        ss << setw(TAB_WIDTH) << "Workers";
         for (int i = 0; i < cases.size(); i++)
-            cout << setw(TAB_WIDTH) << cases[i].name;
-        cout << endl;
+            // cout << setw(TAB_WIDTH) << cases[i].name;
+            ss << setw(TAB_WIDTH) << cases[i].name;
+        // cout << endl;
+        ss << endl;
     }
 
-    cout << setw(TAB_WIDTH) << __cilkrts_get_nworkers();
+    // cout << setw(TAB_WIDTH) << __cilkrts_get_nworkers();
+    ss << setw(TAB_WIDTH) << __cilkrts_get_nworkers();
     for (int i = 0; i < cases.size(); i++)
     {
-        cout << setw(TAB_WIDTH);
+        // cout << setw(TAB_WIDTH);
+        ss << setw(TAB_WIDTH);
         if (!cases[i].correctness)
         {
-            cout << "Wrong Ans";
+            // cout << "Wrong Ans";
+            ss << "Wrong Ans";
         }
         else if (NAN == cases[i].time)
         {
-            cout << "#Error";
+            // cout << "#Error";
+            ss << "#Error";
         }
         else
-            cout << cases[i].time;
+            // cout << cases[i].time;
+            ss << cases[i].time;
     }
-    cout << endl;
+    // cout << endl;
+    ss << endl;
+
+    timing_result += ss.str();
 }

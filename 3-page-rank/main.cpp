@@ -1,6 +1,8 @@
 #include "utils.hpp"
 #include "test.hpp"
 
+extern string timing_result;
+
 int main(int argc, char **argv)
 {
     if (!initialize(argc, argv))
@@ -31,6 +33,8 @@ int main(int argc, char **argv)
         vector<TestResult> test_result = test_all();
         dump_result(test_result);
     }
+
+    cout << timing_result;
 
     cout << "============================================================" << endl;
 }
