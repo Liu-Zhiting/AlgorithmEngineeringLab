@@ -1,36 +1,53 @@
 #include "utils.hpp"
 #include "test.hpp"
 
+extern string TimingResult;
+
+void run_with_nworkers(int workers)
+{
+    char buf[10];
+    sprintf(buf, "%d", workers);
+    __cilkrts_set_param("nworkers", buf);
+    cout << "Running with " << buf << " worker(s), output:" << endl;
+    vector<TestResult> test_result = test_all();
+    cout << endl << "------------------------------------------------------------" << endl;
+    dump_result(test_result);
+    __cilkrts_end_cilk();
+}
+
 int main(int argc, char **argv)
 {
-    if (!initialize(argc, argv))
-        return 1;
+    if (!parse_args(argc, argv))
+    {
+        cerr << "Usage: bfs <filename>" << endl;
+        exit(1);
+    }
 
-    char nworkers[10];
     int current_threads = 1;
     int max_threads = __cilkrts_get_nworkers();
 
     cout << "============================================================" << endl;
     cout << "===========      Algorithm Engineering Lab      ============" << endl;
     cout << "============================================================" << endl;
-    cout << "Project 4: BFS" << endl
-         << endl;
-    while (current_threads <= max_threads)
+    cout << "Project 4: BFS" << endl;
+    cout << "------------------------------------------------------------" << endl;
+    cout << "Loading data . . ." << endl;
+    if(!initialize())
     {
-        sprintf(nworkers, "%d", current_threads);
-        __cilkrts_set_param("nworkers", nworkers);
-        vector<TestResult> test_result = test_all();
-        dump_result(test_result);
-        __cilkrts_end_cilk();
-        current_threads <<= 1;
+        cerr << "Load failed!" << endl;
+        cout << "============================================================" << endl;
+        exit(1);
     }
+    cout << "Load succeeded!" << endl;
+    print_data_info();
+    cout << "------------------------------------------------------------" << endl;
+
+    for (current_threads = 1; current_threads <= max_threads; current_threads <<= 1)
+        run_with_nworkers(current_threads);
     if ((current_threads >> 1) < max_threads)
-    {
-        sprintf(nworkers, "%d", current_threads);
-        __cilkrts_set_param("nworkers", nworkers);
-        vector<TestResult> test_result = test_all();
-        dump_result(test_result);
-    }
+        run_with_nworkers(max_threads);
+
+    cout << TimingResult;
 
     cout << "============================================================" << endl;
 }

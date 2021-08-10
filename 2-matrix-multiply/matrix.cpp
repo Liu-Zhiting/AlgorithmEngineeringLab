@@ -75,6 +75,8 @@ bool Matrix::load_data_text(const char *filename)
 
     ifstream fin;
     fin.open(filename);
+    if (!fin.good())
+        return false;
     fin >> size;
     initialize();
     for (int i = 0; i < size; i++)
@@ -90,7 +92,9 @@ bool Matrix::load_data_binary(const char *filename)
         return false;
 
     ifstream fin;
-    fin.open(filename);
+    fin.open(filename, ios::binary);
+    if (!fin.good())
+        return false;
     fin.read((char *)&size, sizeof(uint32_t));
     initialize();
     for (int i = 0; i < size; i++)

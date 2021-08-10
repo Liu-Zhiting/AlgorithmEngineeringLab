@@ -1,9 +1,6 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 #include "solution.hpp"
-#include <queue>
-#include <chrono>
-using namespace chrono;
 
 double get_sum(const double *const array, const unsigned long length)
 {

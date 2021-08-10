@@ -23,6 +23,8 @@ typedef void (*fun_ptr)(
     int32_t *const *const c,
     const uint32_t size);
 
-bool initialize(int argc, char **argv);
+bool parse_args(int argc, char **argv);
+bool initialize();
+void print_data_info();
 
 

@@ -5,30 +5,38 @@
 
 AdjointList Source;
 Solution TheSolution;
+string FileName = "";
+string TimingResult = "";
 
 vector<TestCase> test_list =
 {
-    {"buttom_up",buttom_up}
+    {"top_down",top_down},
+    {"buttom_up",buttom_up},
+    {"hybrid",hybrid}
 };
 
-bool initialize(int argc, char **argv)
+bool parse_args(int argc, char **argv)
 {
-    bool is_binary, is_text;
     if (argc < 2)
-    {
-        cerr << "Usage: bfs <filename>" << endl;
         return false;
-    }
+    FileName = argv[1];
+    return true;
+}
 
-    bool load_result = Source.load_data_binary(argv[1]);
+bool initialize()
+{
+    bool load_result = Source.load_data_binary(FileName.c_str());
     if (!load_result)
-    {
-        cerr << "Load failed" << endl;
         return false;
-    }
-
     TheSolution.attach_to_graph(Source);
     return true;
+}
+
+void print_data_info()
+{
+    cout << "Data info:" << endl
+         << "Vertex Count: " << Source.vertex_count << endl
+         << "Edge Count: " << Source.edge_count << endl;
 }
 
 TestResult run_and_measure_time(TestCase test_case)
@@ -78,30 +86,38 @@ vector<TestResult> test_all()
 
 void dump_result(vector<TestResult> &cases)
 {
-    const int TAB_WIDTH = 12;
-    cout << left;
+    stringstream ss;
+
+    // init tab width
+    vector<int> tab_width(cases.size()+1);
+    int tail = 0;
+    tab_width[0] = 12;   // magic number, length of "Worker(s)"
+    for(int i = 0; i < cases.size(); i++)
+        tab_width[i+1] = max((int)cases[i].name.length() + 2,10);
+    ss << left;
+
+    // dump headline
     if (1 == cases[0].nworkers)
     {
-        cout << setw(TAB_WIDTH) << "Workers";
+        ss << setw(tab_width[tail++]) << "Worker(s)";
         for (int i = 0; i < cases.size(); i++)
-            cout << setw(TAB_WIDTH) << cases[i].name;
-        cout << endl;
+            ss << setw(tab_width[tail++]) << cases[i].name;
+        ss << endl;
+        tail = 0;
     }
 
-    cout << setw(TAB_WIDTH) << __cilkrts_get_nworkers();
+    ss << setw(tab_width[tail++]) << __cilkrts_get_nworkers();
     for (int i = 0; i < cases.size(); i++)
     {
-        cout << setw(TAB_WIDTH);
+        ss << setw(tab_width[tail++]);
         if (!cases[i].correctness)
-        {
-            cout << "Wrong Ans";
-        }
+            ss << "Wrong Ans";
         else if (NAN == cases[i].time)
-        {
-            cout << "#Error";
-        }
+            ss << "#Error";
         else
-            cout << cases[i].time;
+            ss << cases[i].time;
     }
-    cout << endl;
+    ss << endl;
+
+    TimingResult += ss.str();
 }

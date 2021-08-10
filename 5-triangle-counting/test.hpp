@@ -26,3 +26,6 @@ vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
 uint32_t ref(const Graph &graph);
+uint32_t tc_merge(const Graph &graph);
+uint32_t tc_hash(const Graph &graph);
+uint32_t matrix_mul(const Graph &graph);

@@ -20,5 +20,7 @@ using Graph = AdjointList;
 
 typedef uint32_t (*fun_ptr)(const Graph &graph);
 
-bool initialize(int argc, char **argv);
+bool parse_args(int argc, char **argv);
+bool initialize();
+void print_data_info();
 

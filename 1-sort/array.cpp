@@ -41,6 +41,8 @@ bool Array::load_data_text(const char *filename)
 
     ifstream fin;
     fin.open(filename);
+    if (!fin.good())
+        return false;
     fin >> size;
     data = new int32_t[size];
     for (int i = 0; i < size; i++)
@@ -56,6 +58,8 @@ bool Array::load_data_binary(const char *filename)
 
     ifstream fin;
     fin.open(filename);
+    if (!fin.good())
+        return false;
     fin.read((char *)&size, sizeof(uint32_t));
     data = new int32_t[size];
     fin.read((char *)data, size * sizeof(int32_t));

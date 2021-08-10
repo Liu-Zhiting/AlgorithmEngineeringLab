@@ -45,6 +45,8 @@ bool AdjointList::load_data_text(const char *filename)
     //init
     ifstream fin;
     fin.open(filename);
+    if (!fin.good())
+        return false;
 
     //read metadata and initialize
     fin >> vertex_count;
@@ -55,7 +57,10 @@ bool AdjointList::load_data_text(const char *filename)
     }
     initialize();
     for (int i = 0; i < vertex_count; i++)
+    {
         fin >> out_degree[i];
+        edge_count += out_degree[i];
+    }
 
     //read data
     Node *p = nullptr;
@@ -82,6 +87,8 @@ bool AdjointList::load_data_binary(const char *filename)
     //init
     ifstream fin;
     fin.open(filename, ios::binary);
+    if (!fin.good())
+        return false;
 
     //read metadata and initialize
     fin.read((char *)&vertex_count, sizeof(uint32_t));
@@ -92,6 +99,8 @@ bool AdjointList::load_data_binary(const char *filename)
     }
     initialize();
     fin.read((char *)out_degree, sizeof(uint32_t) * vertex_count);
+    for(int i = 0; i < vertex_count; i++)
+        edge_count += out_degree[i];
 
     //read data
     Node *p = nullptr;

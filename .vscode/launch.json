@@ -30,8 +30,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/2-matrix-multiply/matrix-mul",
             "args": [
-                "${workspaceFolder}/data/matrix_random_1024_8.bin",
-                "${workspaceFolder}/data/matrix_random_1024_7.bin"
+                "${workspaceFolder}/data/matrix_1024.bin",
+                "${workspaceFolder}/data/matrix_1024.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -54,7 +54,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/3-page-rank/page-rank",
             "args": [
-                "${workspaceFolder}/data/adjoint_list_soc.bin"
+                "${workspaceFolder}/data/adjoint_list_gplus.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -100,7 +100,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/5-triangle-counting/triangle-counting",
             "args": [
-                "${workspaceFolder}/data/adjoint_list_random_1024.bin"
+                "${workspaceFolder}/data/adjoint_list_1024.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

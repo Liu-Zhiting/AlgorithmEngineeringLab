@@ -19,6 +19,8 @@ class AdjointList;
 class Solution;
 typedef void (*fun_ptr)(const AdjointList &, Solution &);
 
-bool initialize(int argc, char **argv);
+bool parse_args(int argc, char **argv);
+bool initialize();
+void print_data_info();
 
 const int ROOT_ID = 0;

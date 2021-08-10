@@ -3,48 +3,48 @@
 #include "matrix.hpp"
 
 Matrix A, B, C;
+string FileNameA = "";
+string FileNameB = "";
+string TimingResult = "";
 
 vector<TestCase> test_list =
-{
-    {"loop",loop},
-    {"strassen",strassen},
-    {"divide_and_conquer",divide_and_conquer}
-};
+    {
+        {"loop", loop},
+        {"divide_and_conquer", divide_and_conquer},
+        {"strassen", strassen}};
 
-bool initialize(int argc, char **argv)
+bool parse_args(int argc, char **argv)
 {
-    bool is_binary, is_text;
     if (argc < 3)
-    {
-        cerr << "Usage: matrix-mul <filename_A> <filename_B>"<< endl;
         return false;
-    }
+    FileNameA = argv[1];
+    FileNameB = argv[2];
+    return true;
+}
 
-    bool load_result;
-    load_result = A.load_data_binary(argv[1]);
+bool initialize()
+{
+    bool load_result = A.load_data_binary(FileNameA.c_str());
     if (!load_result)
-    {
-        cerr << "Load failed" << endl;
         return false;
-    }
-
-    load_result = false;
-    load_result = B.load_data_binary(argv[2]);
+    load_result = B.load_data_binary(FileNameB.c_str());
     if (!load_result)
-    {
-        cerr << "Load failed" << endl;
         return false;
-    }
 
     if (A.get_size() != B.get_size())
     {
-        cerr << "A.size != B.size" << endl;
+        cerr << "Error: A.size != B.size" << endl;
         return false;
     }
 
     C.resize(A.get_size());
-
     return true;
+}
+
+void print_data_info()
+{
+    cout << "Data Info: " << endl
+         << "Size: " << A.get_size() << 'x' << A.get_size() << endl;
 }
 
 TestResult run_and_measure_time(TestCase test_case)
@@ -56,8 +56,7 @@ TestResult run_and_measure_time(TestCase test_case)
     {
         C.clear();
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        // test_case.func(A, B, C);
-        C.multiply_by_func(A,B,test_case.func);
+        C.multiply_by_func(A, B, test_case.func);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
         test_result.time = time_span.count();
@@ -77,7 +76,7 @@ vector<TestResult> test_all()
     vector<TestResult> results;
     TestResult current_result;
 
-    TestCase ref_case = {"ref",ref};
+    TestCase ref_case = {"ref", ref};
     TestResult ref_result = run_and_measure_time(ref_case);
     const Matrix compare(C);
     ref_result.correctness = true;
@@ -95,30 +94,38 @@ vector<TestResult> test_all()
 
 void dump_result(vector<TestResult> &cases)
 {
-    const int TAB_WIDTH = 12;
-    cout << left;
+    stringstream ss;
+
+    // init tab width
+    vector<int> tab_width(cases.size()+1);
+    int tail = 0;
+    tab_width[0] = 12;   // magic number, length of "Worker(s)"
+    for(int i = 0; i < cases.size(); i++)
+        tab_width[i+1] = max((int)cases[i].name.length() + 2,10);
+    ss << left;
+
+    // dump headline
     if (1 == cases[0].nworkers)
     {
-        cout << setw(TAB_WIDTH) << "Workers";
+        ss << setw(tab_width[tail++]) << "Worker(s)";
         for (int i = 0; i < cases.size(); i++)
-            cout << setw(TAB_WIDTH) << cases[i].name;
-        cout << endl;
+            ss << setw(tab_width[tail++]) << cases[i].name;
+        ss << endl;
+        tail = 0;
     }
 
-    cout << setw(TAB_WIDTH) << __cilkrts_get_nworkers();
+    ss << setw(tab_width[tail++]) << __cilkrts_get_nworkers();
     for (int i = 0; i < cases.size(); i++)
     {
-        cout << setw(TAB_WIDTH);
+        ss << setw(tab_width[tail++]);
         if (!cases[i].correctness)
-        {
-            cout << "Wrong Ans";
-        }
+            ss << "Wrong Ans";
         else if (NAN == cases[i].time)
-        {
-            cout << "#Error";
-        }
+            ss << "#Error";
         else
-            cout << cases[i].time;
+            ss << cases[i].time;
     }
-    cout << endl;
+    ss << endl;
+
+    TimingResult += ss.str();
 }

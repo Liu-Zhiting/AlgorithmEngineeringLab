@@ -39,7 +39,11 @@ bool Solution::operator==(const Solution &other) const
 {
     if (size != other.size)
         return false;
-    return (0 == memcmp(value, other.value, size * sizeof(double)));
+    const double _EPSILON = 1e-6;
+    for(int i = 0; i < size; i++)
+        if(abs(value[i] - other.value[i])>_EPSILON)
+            return false;
+    return true;
 }
 
 Solution &Solution::operator=(const Solution &other)

@@ -25,4 +25,6 @@ vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
 void ref(const AdjointList &graph, Solution &solution);
+void top_down(const AdjointList &graph, Solution &solution);
 void buttom_up(const AdjointList &graph, Solution &solution);
+void hybrid(const AdjointList &graph, Solution &solution);

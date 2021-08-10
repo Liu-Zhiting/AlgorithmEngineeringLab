@@ -25,3 +25,5 @@ vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
 void ref(const AdjointList &graph, Solution &solution);
+void iterate_rank(const AdjointList &graph, Solution &solution);
+void accurate_rank(const AdjointList &graph, Solution &solution);

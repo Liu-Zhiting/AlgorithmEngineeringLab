@@ -17,4 +17,5 @@ public:
     bool operator==(const Array &other) const;
     Array &operator=(const Array &other);
     void sort_with_func(fun_ptr func) { func(data, size); };
+    uint32_t get_size() const { return size;};
 };
