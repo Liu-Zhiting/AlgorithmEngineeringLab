@@ -7,7 +7,7 @@
 - [Windows Subsystem for Linux(WSL)](https://docs.microsoft.com/zh-cn/windows/wsl/install-win10)
 - [VMWare WorkStaion Player](https://www.vmware.com/cn/products/workstation-player.html)
 
-实验代码中使用了并行工具Cilk。[Cilk](https://en.wikipedia.org/wiki/Cilk)是由MIT 的 [Charles E. Leiserson](https://people.csail.mit.edu/cel/) 及其团队最初开发的并行工具，在gcc5(g++5)中被加入，gcc7(g++7)中被弃用，此后版本的gcc（与g++）不再支持Cilk。Cilk后来被 Cilk Arts 公司商业化为 Cilk++。该公司随后被英特尔收购，因特尔将其称为 Cilk Plus。此外，Leiserson 团队发布了Cilk的开源版本[OpenCilk](https://cilk.mit.edu/)，这是一个修改过的clang10编译器，支持Cilk语法。
+实验代码中使用了并行工具Cilk。[Cilk](https://en.wikipedia.org/wiki/Cilk)是由MIT 的 [Charles E. Leiserson](https://people.csail.mit.edu/cel/) 及其团队最初开发的并行工具，在gcc5(g++5)中被加入，gcc8(g++8)中被弃用，此后版本的gcc（与g++）不再支持Cilk。Cilk后来被 Cilk Arts 公司商业化为 Cilk++。该公司随后被英特尔收购，因特尔将其称为 Cilk Plus。此外，Leiserson 团队发布了Cilk的开源版本[OpenCilk](https://cilk.mit.edu/)，这是一个修改过的clang10编译器，支持Cilk语法。
 
 完成本实验时建议使用gcc7(g++7)编译并运行，或者安装OpenCilk并使用clang10(clang++10)。
 
