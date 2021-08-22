@@ -2,7 +2,7 @@
 
 设A,B,C为 n × n 的方阵，其中n为2的幂，一般的矩阵可以填零使得n为2的幂。计算C = A · B 的结果
 
-### 基本信息
+## 基本信息
 
 **输入文件格式**
 
@@ -77,27 +77,13 @@ for(int i = 0;i < n;i++)
 ## 任务2：分治的矩阵乘法
 
 将A,B,C分成相等大小的方块矩阵：
-$$
-A = \begin{bmatrix}  
-  A_{1,1}  & A_{1,2} \\
-  A_{2,1} & A_{2,2} \\
-\end{bmatrix} ,
-B = \begin{bmatrix}  
-  B_{1,1}  & B_{1,2} \\
-  B_{2,1} & B_{2,2} \\
-\end{bmatrix} ,
-C = \begin{bmatrix}  
-  C_{1,1}  & C_{1,2} \\
-  C_{2,1} & C_{2,2} \\
-\end{bmatrix}
-$$
+
+<img src="https://latex.codecogs.com/svg.image?A&space;=&space;\begin{bmatrix}&space;&space;&space;&space;A_{1,1}&space;&space;&&space;A_{1,2}&space;\\&space;&space;A_{2,1}&space;&&space;A_{2,2}&space;\\\end{bmatrix}&space;,B&space;=&space;\begin{bmatrix}&space;&space;&space;&space;B_{1,1}&space;&space;&&space;B_{1,2}&space;\\&space;&space;B_{2,1}&space;&&space;B_{2,2}&space;\\\end{bmatrix}&space;,C&space;=&space;\begin{bmatrix}&space;&space;&space;&space;C_{1,1}&space;&space;&&space;C_{1,2}&space;\\&space;&space;C_{2,1}&space;&&space;C_{2,2}&space;\\\end{bmatrix}" title="A = \begin{bmatrix} A_{1,1} & A_{1,2} \\ A_{2,1} & A_{2,2} \\\end{bmatrix} ,B = \begin{bmatrix} B_{1,1} & B_{1,2} \\ B_{2,1} & B_{2,2} \\\end{bmatrix} ,C = \begin{bmatrix} C_{1,1} & C_{1,2} \\ C_{2,1} & C_{2,2} \\\end{bmatrix}" />
+
 于是
-$$
-C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\
-C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\
-C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\
-C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}
-$$
+
+<img src="https://latex.codecogs.com/svg.image?C_{1,1}&space;=&space;A_{1,1}B_{1,1}&space;&plus;&space;A_{1,2}B_{2,1}&space;\\C_{1,2}&space;=&space;A_{1,1}B_{1,2}&space;&plus;&space;A_{1,2}B_{2,2}&space;\\C_{2,1}&space;=&space;A_{2,1}B_{1,1}&space;&plus;&space;A_{2,2}B_{2,1}&space;\\C_{2,2}&space;=&space;A_{2,1}B_{1,2}&space;&plus;&space;A_{2,2}B_{2,2}" title="C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}" />
+
 **任务要求**
 
 参考以上内容，查阅相关资料，编写divide_and_conquer.cpp文件中的divide_and_conquer函数以实现分治的矩阵乘法，并且编译运行，程序会判断结果是否正确并测量运行时间
@@ -107,46 +93,23 @@ $$
 ## 任务3：strassen矩阵乘法
 
 将A,B,C分成相等大小的方块矩阵：
-$$
-A = \begin{bmatrix}  
-  A_{1,1}  & A_{1,2} \\
-  A_{2,1} & A_{2,2} \\
-\end{bmatrix} ,
-B = \begin{bmatrix}  
-  B_{1,1}  & B_{1,2} \\
-  B_{2,1} & B_{2,2} \\
-\end{bmatrix} ,
-C = \begin{bmatrix}  
-  C_{1,1}  & C_{1,2} \\
-  C_{2,1} & C_{2,2} \\
-\end{bmatrix}
-$$
+
+<img src="https://latex.codecogs.com/svg.image?A&space;=&space;\begin{bmatrix}&space;&space;&space;&space;A_{1,1}&space;&space;&&space;A_{1,2}&space;\\&space;&space;A_{2,1}&space;&&space;A_{2,2}&space;\\\end{bmatrix}&space;,B&space;=&space;\begin{bmatrix}&space;&space;&space;&space;B_{1,1}&space;&space;&&space;B_{1,2}&space;\\&space;&space;B_{2,1}&space;&&space;B_{2,2}&space;\\\end{bmatrix}&space;,C&space;=&space;\begin{bmatrix}&space;&space;&space;&space;C_{1,1}&space;&space;&&space;C_{1,2}&space;\\&space;&space;C_{2,1}&space;&&space;C_{2,2}&space;\\\end{bmatrix}" title="A = \begin{bmatrix} A_{1,1} & A_{1,2} \\ A_{2,1} & A_{2,2} \\\end{bmatrix} ,B = \begin{bmatrix} B_{1,1} & B_{1,2} \\ B_{2,1} & B_{2,2} \\\end{bmatrix} ,C = \begin{bmatrix} C_{1,1} & C_{1,2} \\ C_{2,1} & C_{2,2} \\\end{bmatrix}" />
+
+
+
 于是
-$$
-C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\
-C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\
-C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\
-C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}
-$$
+
+<img src="https://latex.codecogs.com/svg.image?C_{1,1}&space;=&space;A_{1,1}B_{1,1}&space;&plus;&space;A_{1,2}B_{2,1}&space;\\C_{1,2}&space;=&space;A_{1,1}B_{1,2}&space;&plus;&space;A_{1,2}B_{2,2}&space;\\C_{2,1}&space;=&space;A_{2,1}B_{1,1}&space;&plus;&space;A_{2,2}B_{2,1}&space;\\C_{2,2}&space;=&space;A_{2,1}B_{1,2}&space;&plus;&space;A_{2,2}B_{2,2}" title="C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}" />
+
 引入新矩阵
 
-$$
-M_{1} = (A_{1,1}+A_{2,2})(B_{1,1}+B_{2,2}) \\
-M_{2} = (A_{2,1}+A_{2,2})B_{1,1} \\
-M_{3} = A_{1,1}(B_{1,2}-B_{2,2}) \\
-M_{4} = A_{2,2}(B_{2,1}-B_{1,1}) \\
-M_{5} = (A_{1,1}+A_{2,2})B_{2,2} \\
-M_{6} = (A_{2,1}-A_{1,1})(B_{1,1}+B_{1,2}) \\
-M_{7} = (A_{1,2}-A_{2,2})(B_{2,1}+B_{2,2})
-$$
+<img src="https://latex.codecogs.com/svg.image?M_{1}&space;=&space;(A_{1,1}&plus;A_{2,2})(B_{1,1}&plus;B_{2,2})&space;\\M_{2}&space;=&space;(A_{2,1}&plus;A_{2,2})B_{1,1}&space;\\M_{3}&space;=&space;A_{1,1}(B_{1,2}-B_{2,2})&space;\\M_{4}&space;=&space;A_{2,2}(B_{2,1}-B_{1,1})&space;\\M_{5}&space;=&space;(A_{1,1}&plus;A_{2,2})B_{2,2}&space;\\M_{6}&space;=&space;(A_{2,1}-A_{1,1})(B_{1,1}&plus;B_{1,2})&space;\\M_{7}&space;=&space;(A_{1,2}-A_{2,2})(B_{2,1}&plus;B_{2,2})" title="M_{1} = (A_{1,1}+A_{2,2})(B_{1,1}+B_{2,2}) \\M_{2} = (A_{2,1}+A_{2,2})B_{1,1} \\M_{3} = A_{1,1}(B_{1,2}-B_{2,2}) \\M_{4} = A_{2,2}(B_{2,1}-B_{1,1}) \\M_{5} = (A_{1,1}+A_{2,2})B_{2,2} \\M_{6} = (A_{2,1}-A_{1,1})(B_{1,1}+B_{1,2}) \\M_{7} = (A_{1,2}-A_{2,2})(B_{2,1}+B_{2,2})"/>
+
 可得：
 
-$$
-C_{1,1}=M_{1}+M_{4}-M_{5}+M_{7} \\
-C_{1,2}=M_{3}+M_{5} \\
-C_{2,1}=M_{2}+M_{4} \\
-C_{2,2}=M_{1}-M_{2}+M_{3}+M_{6}
-$$
+<img src="https://latex.codecogs.com/svg.image?C_{1,1}=M_{1}&plus;M_{4}-M_{5}&plus;M_{7}&space;\\C_{1,2}=M_{3}&plus;M_{5}&space;\\C_{2,1}=M_{2}&plus;M_{4}&space;\\C_{2,2}=M_{1}-M_{2}&plus;M_{3}&plus;M_{6}" title="C_{1,1}=M_{1}+M_{4}-M_{5}+M_{7} \\C_{1,2}=M_{3}+M_{5} \\C_{2,1}=M_{2}+M_{4} \\C_{2,2}=M_{1}-M_{2}+M_{3}+M_{6}" />
+
 其中的计算也是使用strassen算法求得。
 
 **任务要求**
@@ -155,7 +118,7 @@ $$
 
 
 
-**参考资料**
+## 参考资料
 
 https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-172-performance-engineering-of-software-systems-fall-2018/lecture-slides/MIT6_172F18_lec1.pdf
 

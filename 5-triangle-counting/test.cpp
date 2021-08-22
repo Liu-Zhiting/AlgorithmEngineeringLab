@@ -11,7 +11,7 @@ vector<TestCase> test_list =
 {
     {"tc_merge",tc_merge},
     {"tc_hash",tc_hash},
-    {"matrix_mul",matrix_mul}
+    {"tc_matrix",tc_matrix}
 };
 
 bool parse_args(int argc, char **argv)
