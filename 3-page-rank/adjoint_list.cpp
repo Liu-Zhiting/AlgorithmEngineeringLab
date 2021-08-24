@@ -7,14 +7,20 @@ void AdjointList::initialize()
         return;
     if (vertex_count <= 0)
         return;
+    if(nullptr != in_degree)
+        delete [] in_degree;
 
-    this->vertex = new Node[vertex_count];
-    this->out_degree = new uint32_t[vertex_count];
+    // init count and degree
+    edge_count = 0;    
+    out_degree = new uint32_t[vertex_count];
+    memset(out_degree, 0, sizeof(uint32_t) *  vertex_count);
+    in_degree = new uint32_t[vertex_count];
+    memset(in_degree, 0, sizeof(uint32_t) *  vertex_count);
+
+    // init vertex
+    vertex = new Node[vertex_count];
     for (int i = 0; i < vertex_count; i++)
-    {
         vertex[i].next = nullptr;
-        out_degree[i] = 0;
-    }
 }
 
 void AdjointList::dispose()
@@ -34,10 +40,16 @@ void AdjointList::dispose()
         }
     }
     delete[] vertex;
-    if (nullptr == out_degree)
-        return;
-    delete[] out_degree;
-    out_degree = nullptr;
+    if (nullptr != out_degree)
+    {
+        delete[] out_degree;
+        out_degree = nullptr;
+    }
+    if(nullptr != in_degree)
+    {
+        delete[] in_degree;
+        in_degree = nullptr;
+    }
 }
 
 bool AdjointList::load_data_text(const char *filename)
@@ -72,6 +84,7 @@ bool AdjointList::load_data_text(const char *filename)
             p->next = new Node();
             p = p->next;
             fin >> (p->value);
+            in_degree[p->value]++; // TODO potential memory leak
             p->next = nullptr;
         }
     }
@@ -112,6 +125,7 @@ bool AdjointList::load_data_binary(const char *filename)
             p->next = new Node();
             p = p->next;
             fin.read((char *)&(p->value), sizeof(int32_t));
+            in_degree[p->value]++; // TODO potential memory leak
             p->next = nullptr;
         }
     }
@@ -132,9 +146,15 @@ bool AdjointList::operator==(const AdjointList &other) const
         return true;
     if ((nullptr != out_degree && nullptr == other.out_degree) || (nullptr == out_degree && nullptr != other.out_degree))
         return false;
+    if (nullptr == in_degree && nullptr == other.in_degree)
+        return true;
+    if ((nullptr != in_degree && nullptr == other.in_degree) || (nullptr == in_degree && nullptr != other.in_degree))
+        return false;
     for (int i = 0; i < vertex_count; i++)
     {
         if (out_degree[i] != other.out_degree[i])
+            return false;
+        if (in_degree[i] != other.in_degree[i])
             return false;
     }
     if (nullptr == vertex && nullptr == other.vertex)
@@ -241,9 +261,7 @@ void AdjointList::save_file_text(const char *filename) const
     for (int i = 0; i < vertex_count; i++)
     {
         for (Node *p = vertex[i].next; p != nullptr; p = p->next)
-        {
             fout << p->value << ' ';
-        }
         fout << endl;
     }
 
@@ -258,17 +276,13 @@ void AdjointList::save_file_binary(const char *filename) const
     fout.open(filename, ios::binary);
 
     //write meta data
-    fout.write((char *)&vertex_count, sizeof(int));
-    fout.write((char *)out_degree, sizeof(int) * vertex_count);
+    fout.write((char *)&vertex_count, sizeof(uint32_t));
+    fout.write((char *)out_degree, sizeof(uint32_t) * vertex_count);
 
     //write edge data
     for (int i = 0; i < vertex_count; i++)
-    {
         for (Node *p = vertex[i].next; p != nullptr; p = p->next)
-        {
-            fout.write((char *)&p->value, sizeof(int));
-        }
-    }
+            fout.write((char *)&p->value, sizeof(uint32_t));
 
     //close file
     fout.close();
@@ -281,9 +295,7 @@ void AdjointList::dump_adjoint_list() const
     {
         cout << "vertex " << i;
         for (Node *p = vertex[i].next; p != nullptr; p = p->next)
-        {
             cout << " -> " << p->value;
-        }
         cout << endl;
     }
 }
@@ -291,17 +303,14 @@ void AdjointList::dump_adjoint_list() const
 uint32_t **AdjointList::convert_to_adjoint_matrix() const
 {
     uint32_t **result = new uint32_t *[vertex_count];
-    parallel_for(int i = 0; i < vertex_count; i++)
+    for(int i = 0; i < vertex_count; i++)
     {
         result[i] = new uint32_t[vertex_count];
         memset(result[i], 0, vertex_count * sizeof(uint32_t));
     }
-    parallel_for(int i = 0; i < vertex_count; i++)
-    {
+    for(int i = 0; i < vertex_count; i++)
         for (Node *p = vertex[i].next; p != nullptr; p = p->next)
-        {
             result[i][p->value] = 1;
-        }
-    }
+
     return result;
 }

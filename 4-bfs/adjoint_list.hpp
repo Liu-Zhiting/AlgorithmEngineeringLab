@@ -17,6 +17,7 @@ public:
     uint32_t vertex_count;
     uint32_t edge_count;
     uint32_t *out_degree;
+    uint32_t *in_degree;
     Node *vertex;
 
     AdjointList() : vertex_count(0), edge_count(0), out_degree(nullptr), vertex(nullptr){};
