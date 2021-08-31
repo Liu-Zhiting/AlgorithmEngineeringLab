@@ -3,7 +3,7 @@
 
 void AdjointList::initialize()
 {
-    if (nullptr != out_degree || nullptr != vertex)
+    if (nullptr != out_degree || nullptr != neighbor)
         return;
     if (vertex_count <= 0)
         return;
@@ -17,21 +17,21 @@ void AdjointList::initialize()
     in_degree = new uint32_t[vertex_count];
     memset(in_degree, 0, sizeof(uint32_t) *  vertex_count);
 
-    // init vertex
-    vertex = new Node[vertex_count];
+    // init neighbor
+    neighbor = new Node[vertex_count];
     for (int i = 0; i < vertex_count; i++)
-        vertex[i].next = nullptr;
+        neighbor[i].next = nullptr;
 }
 
 void AdjointList::dispose()
 {
-    if (nullptr == vertex)
+    if (nullptr == neighbor)
         return;
 
     Node *p = nullptr, *q = nullptr;
     for (int i = 0; i < vertex_count; i++)
     {
-        p = vertex[i].next;
+        p = neighbor[i].next;
         while (p != nullptr)
         {
             q = p->next;
@@ -39,7 +39,7 @@ void AdjointList::dispose()
             p = q;
         }
     }
-    delete[] vertex;
+    delete[] neighbor;
     if (nullptr != out_degree)
     {
         delete[] out_degree;
@@ -78,7 +78,7 @@ bool AdjointList::load_data_text(const char *filename)
     Node *p = nullptr;
     for (int i = 0; i < vertex_count; i++)
     {
-        p = &vertex[i];
+        p = &neighbor[i];
         for (int j = 0; j < out_degree[i]; j++)
         {
             p->next = new Node();
@@ -119,7 +119,7 @@ bool AdjointList::load_data_binary(const char *filename)
     Node *p = nullptr;
     for (int i = 0; i < vertex_count; i++)
     {
-        p = &vertex[i];
+        p = &neighbor[i];
         for (int j = 0; j < out_degree[i]; j++)
         {
             p->next = new Node();
@@ -157,13 +157,13 @@ bool AdjointList::operator==(const AdjointList &other) const
         if (in_degree[i] != other.in_degree[i])
             return false;
     }
-    if (nullptr == vertex && nullptr == other.vertex)
+    if (nullptr == neighbor && nullptr == other.neighbor)
         return true;
-    if ((nullptr != vertex && nullptr == other.vertex) || (nullptr == vertex && nullptr != other.vertex))
+    if ((nullptr != neighbor && nullptr == other.neighbor) || (nullptr == neighbor && nullptr != other.neighbor))
         return false;
     for (int i = 0; i < vertex_count; i++)
     {
-        Node *p = vertex[i].next, *q = other.vertex[i].next;
+        Node *p = neighbor[i].next, *q = other.neighbor[i].next;
         while (nullptr != p && nullptr != q)
         {
             if (p->value != q->value)
@@ -189,8 +189,8 @@ AdjointList &AdjointList::operator=(const AdjointList &other)
     Node *p = nullptr, *q = nullptr;
     for (int i = 0; i < vertex_count; i++)
     {
-        p = &vertex[i];
-        q = &other.vertex[i];
+        p = &neighbor[i];
+        q = &other.neighbor[i];
         for (int j = 0; j < out_degree[i]; j++)
         {
             p->next = new Node();
@@ -210,17 +210,17 @@ bool AdjointList::add_edge(const int from, const int to)
     if (search_edge(from, to))
         return false;
     out_degree[from]++;
-    Node *p = vertex[from].next;
-    vertex[from].next = new Node();
-    vertex[from].next->value = to;
-    vertex[from].next->next = p;
+    Node *p = neighbor[from].next;
+    neighbor[from].next = new Node();
+    neighbor[from].next->value = to;
+    neighbor[from].next->next = p;
     edge_count++;
     return true;
 }
 
 bool AdjointList::search_edge(const int from, const int to) const
 {
-    for (Node *p = vertex[from].next; p != nullptr; p = p->next)
+    for (Node *p = neighbor[from].next; p != nullptr; p = p->next)
         if (p->value == to)
             return true;
     return false;
@@ -232,7 +232,7 @@ bool AdjointList::remove_edge(const int from, const int to)
         return false;
     out_degree[from]--;
     edge_count--;
-    for (Node *p = &vertex[from]; p != nullptr; p = p->next)
+    for (Node *p = &neighbor[from]; p != nullptr; p = p->next)
     {
         if (to == p->next->value)
         {
@@ -260,7 +260,7 @@ void AdjointList::save_file_text(const char *filename) const
     //write edge data
     for (int i = 0; i < vertex_count; i++)
     {
-        for (Node *p = vertex[i].next; p != nullptr; p = p->next)
+        for (Node *p = neighbor[i].next; p != nullptr; p = p->next)
             fout << p->value << ' ';
         fout << endl;
     }
@@ -281,7 +281,7 @@ void AdjointList::save_file_binary(const char *filename) const
 
     //write edge data
     for (int i = 0; i < vertex_count; i++)
-        for (Node *p = vertex[i].next; p != nullptr; p = p->next)
+        for (Node *p = neighbor[i].next; p != nullptr; p = p->next)
             fout.write((char *)&p->value, sizeof(uint32_t));
 
     //close file
@@ -293,8 +293,8 @@ void AdjointList::dump_adjoint_list() const
     cout << "vertex_count: " << vertex_count << endl;
     for (int i = 0; i < vertex_count; i++)
     {
-        cout << "vertex " << i;
-        for (Node *p = vertex[i].next; p != nullptr; p = p->next)
+        cout << "neighbor " << i;
+        for (Node *p = neighbor[i].next; p != nullptr; p = p->next)
             cout << " -> " << p->value;
         cout << endl;
     }
@@ -309,7 +309,7 @@ uint32_t **AdjointList::convert_to_adjoint_matrix() const
         memset(result[i], 0, vertex_count * sizeof(uint32_t));
     }
     for(int i = 0; i < vertex_count; i++)
-        for (Node *p = vertex[i].next; p != nullptr; p = p->next)
+        for (Node *p = neighbor[i].next; p != nullptr; p = p->next)
             result[i][p->value] = 1;
 
     return result;

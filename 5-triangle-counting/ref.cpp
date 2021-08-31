@@ -1,7 +1,7 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 
-uint32_t par_sum(const uint32_t const *array, long length)
+uint32_t par_sum(const uint32_t *const array, long length)
 {
     uint32_t result = 0.0;
     if (length <= 256)
@@ -32,15 +32,14 @@ uint32_t ref(const Graph &graph)
     }
 
     parallel_for(int i = 0; i < n; i++)
-        parallel_for(int k = 0; k < n; k++) 
-            for (int j = 0; j < n; j++)
-                A2[i][j] += A[i][k] * A[k][j];
+        parallel_for(int k = 0; k < n; k++) for (int j = 0; j < n; j++)
+            A2[i][j] += A[i][k] * A[k][j];
 
     memset(tmp_result, 0, sizeof(uint32_t) * n * n);
     parallel_for(int i = 0; i < n; i++)
         parallel_for(int j = 0; j < n; j++)
             tmp_result[i * n + j] = A[i][j] * A2[i][j];
-    result = par_sum(tmp_result,n*n);
+    result = par_sum(tmp_result, n * n);
 
     result /= 6; //ij与ji都计算过一次，需要再次除以2
 

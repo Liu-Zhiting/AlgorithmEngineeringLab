@@ -77,7 +77,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/4-bfs/bfs",
             "args": [
-                "${workspaceFolder}/data/adjoint_list_gplus.bin"
+                "${workspaceFolder}/data/adjoint_list_soc.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

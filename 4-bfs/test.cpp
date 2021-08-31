@@ -1,9 +1,9 @@
 #include "utils.hpp"
 #include "test.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 #include "solution.hpp"
 
-AdjointList Source;
+StaticAdjointList Source;
 Solution TheSolution;
 string FileName = "";
 string TimingResult = "";
@@ -35,8 +35,8 @@ bool initialize()
 void print_data_info()
 {
     cout << "Data info:" << endl
-         << "Vertex Count: " << Source.vertex_count << endl
-         << "Edge Count: " << Source.edge_count << endl;
+         << "Vertex Count: " << Source.get_vertex_count() << endl
+         << "Edge Count: " << Source.get_edge_count() << endl;
 }
 
 TestResult run_and_measure_time(TestCase test_case)

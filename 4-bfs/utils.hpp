@@ -16,8 +16,11 @@
 using namespace std;
 
 class AdjointList;
+class StaticAdjointList;
+using Graph= StaticAdjointList;
+
 class Solution;
-typedef void (*fun_ptr)(const AdjointList &, Solution &);
+typedef void (*fun_ptr)(const Graph &, Solution &);
 
 bool parse_args(int argc, char **argv);
 bool initialize();

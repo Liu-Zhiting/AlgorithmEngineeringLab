@@ -1,28 +1,147 @@
 #include "utils.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 #include "solution.hpp"
-#include <queue>
+#include "bitmap.hpp"
+#include <vector>
+#include <algorithm>
 
-void ref(const AdjointList &graph, Solution &solution)
+int ref_counter;
+
+// mu: the number of edges to check from unexplored vertices
+int ref_get_mu(const Graph &graph, const Solution &solution)
 {
-    queue<int> q;
-    vector<bool> visited(graph.vertex_count);
-    parallel_for(int i = 0; i < graph.vertex_count; i++)
-        visited[i] = false;
+    int mu = 0;
+    for (int i = 0; i < graph.get_vertex_count(); i++)
+        if (4294967295 == solution.distance[i])
+            mu += graph.out_degree[i];
+    return mu;
+}
 
-    solution.distance[ROOT_ID] = 0;
-    visited[ROOT_ID] = true;
-    q.push(ROOT_ID);
-    while (!q.empty())
+// mf: the number of edges to check from the frontier
+int ref_get_mf(const Graph &graph, const vector<uint32_t> &frontier)
+{
+    int mf = 0;
+    for (int i = 0; i < frontier.size(); i++)
+        mf += graph.out_degree[frontier[i]];
+    return mf;
+}
+
+void ref_vector2bitmap(
+    const vector<uint32_t> *const frontier,
+    Bitmap &frontier_bitmap)
+{
+    frontier_bitmap.clear();
+    for (int i = 0; i < frontier->size(); i++)
     {
-        for (Node *p = graph.vertex[q.front()].next; p != nullptr; p = p->next)
+        frontier_bitmap.set(frontier->at(i), true);
+    }
+}
+
+void ref_bitmap2vector(
+    const Bitmap &frontier_bitmap,
+    vector<uint32_t> *const frontier)
+{
+    for (int i = 0; i < frontier_bitmap.get_capacity(); i++)
+    {
+        if (frontier_bitmap.at(i))
+            frontier->push_back(i);
+    }
+}
+
+void ref_bottom_up_step(
+    const Graph &graph,
+    Solution &solution,
+    const Bitmap &frontier_bitmap,
+    Bitmap &next_bitmap)
+{
+    for (int i = 0; i < graph.get_vertex_count(); i++)
+    {
+        if (4294967295 != solution.distance[i])
+            continue;
+        for (int j = 0; j < graph.out_degree[i]; j++)
         {
-            if (visited[p->value])
+            if (!frontier_bitmap.at(graph.neighbor[i][j]))
                 continue;
-            q.push(p->value);
-            visited[p->value] = true;
-            solution.distance[p->value] = solution.distance[q.front()] + 1;
+            solution.distance[i] = ref_counter;
+            next_bitmap.set(i, true);
         }
-        q.pop();
+    }
+    ref_counter++;
+}
+
+void ref_top_down_step(
+    const Graph &graph,
+    Solution &solution,
+    const vector<uint32_t> *const frontier,
+    vector<uint32_t> *const next)
+{
+    for (int i = 0; i < frontier->size(); i++)
+    {
+        for (int j = 0; j < graph.out_degree[i]; j++)
+        {
+            if (4294967295 != solution.distance[graph.neighbor[i][j]])
+                continue;
+            solution.distance[graph.neighbor[i][j]] = ref_counter;
+            next->push_back(graph.neighbor[i][j]); // write race here
+        }
+    }
+    ref_counter++;
+}
+
+template <typename T>
+void ref_swap_pointer(T *&a, T *&b)
+{
+    T *tmp = a;
+    a = b;
+    b = tmp;
+}
+
+void ref(const Graph &graph, Solution &solution)
+{
+    ref_counter = 1;
+    uint32_t n = graph.get_vertex_count();
+    bool is_top_down = true;
+
+    // init meta data
+    const int ALPHA = 14;
+    const int BETA = 24;
+
+    // init frontier and next
+    vector<uint32_t> q1, q2;
+    vector<uint32_t> *frontier = &q1, *next = &q2;
+    memset(solution.distance, -1, sizeof(uint32_t) * solution.size);
+    Bitmap b1(n), b2(n);
+    Bitmap *frontier_bitmap = &b1, *next_bitmap = &b2;
+
+    // push ROOT
+    frontier->push_back(ROOT_ID);
+    solution.distance[ROOT_ID] = 0;
+
+    while ((is_top_down && !frontier->empty()) || (!is_top_down && !frontier_bitmap->is_empty()))
+    {
+        if (is_top_down)
+        {
+            ref_top_down_step(graph, solution, frontier, next);
+            ref_swap_pointer(frontier, next);
+            next->clear();
+            if (ref_get_mf(graph, *frontier) > ref_get_mu(graph, solution) / ALPHA)
+            {
+                ref_vector2bitmap(frontier, *frontier_bitmap);
+                next_bitmap->clear();
+                is_top_down = false;
+            }
+        }
+        else
+        {
+            ref_bottom_up_step(graph, solution, *frontier_bitmap, *next_bitmap);
+            ref_swap_pointer(frontier_bitmap, next_bitmap);
+            next_bitmap->clear();
+            if (frontier_bitmap->get_num_of_1() < n / BETA)
+            {
+                ref_bitmap2vector(*frontier_bitmap, frontier);
+                next->clear();
+                is_top_down = true;
+            }
+        }
     }
 }
