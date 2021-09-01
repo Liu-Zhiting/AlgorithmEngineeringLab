@@ -6,16 +6,18 @@ int file_type_id, mode_id;
 ostringstream ostr;
 
 void generate_random(AdjointList &graph);
+void generate_cbtree(AdjointList &graph);
 
 void (*generate_func[2])(AdjointList &) = {
-    generate_random};
+    generate_random,generate_cbtree};
 
 int main(int argc, char **argv)
 {
     AdjointList graph;
     if (argc < 4)
     {
-        cerr << "Usage: <file_type:text|binary> <mode:random|sparse> <vertex_count>" << endl;
+        cerr << "Usage: <file_type:text|binary> <mode:random|cb-tree> <vertex_count>" << endl;
+        cerr << "cb-tree: complete binary tree" << endl;
         return 1;
     }
     try
@@ -28,6 +30,8 @@ int main(int argc, char **argv)
             throw argv[1];
         if (0 == strcmp(argv[2], "random"))
             mode_id = 0;
+        else if (0 == strcmp(argv[2], "cb-tree"))
+            mode_id = 1;
         else
             throw argv[2];
         mode = argv[2];
@@ -78,5 +82,17 @@ void generate_random(AdjointList &graph)
             continue;
         graph.add_edge(u, v);
         graph.add_edge(v, u);
+    }
+}
+
+void generate_cbtree(AdjointList &graph)
+{
+    int n = graph.vertex_count;
+    for(int i = 0; i < (n-3) / 2; i++)
+    {
+        graph.add_edge(i,2*i+1);
+        graph.add_edge(2*i+1,i);
+        graph.add_edge(i,2*i+2);
+        graph.add_edge(2*i+2,i);
     }
 }

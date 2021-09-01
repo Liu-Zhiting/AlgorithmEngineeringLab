@@ -17,7 +17,6 @@ public:
                           out_degree(nullptr),
                           in_degree(nullptr),
                           neighbor(nullptr){};
-    StaticAdjointList(const AdjointList &other);
     StaticAdjointList(const StaticAdjointList &other);
     StaticAdjointList(const char *filename, bool is_binary);
     ~StaticAdjointList() { dispose(); };

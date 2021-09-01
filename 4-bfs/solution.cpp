@@ -8,8 +8,8 @@ void Solution::initialize()
         return;
     if (size <= 0)
         return;
-    distance = new uint32_t[size];
-    memset(distance, 0, size * sizeof(uint32_t));
+    distance = new int32_t[size];
+    memset(distance, 0, size * sizeof(int32_t));
 }
 
 void Solution::dispose()
@@ -25,7 +25,7 @@ Solution::Solution(const Solution &other) : size(other.size), distance(nullptr)
     if (this == &other)
         return;
     initialize();
-    memcpy(distance, other.distance, other.size * sizeof(uint32_t));
+    memcpy(distance, other.distance, other.size * sizeof(int32_t));
 }
 
 void Solution::attach_to_graph(const Graph &graph)
@@ -39,7 +39,7 @@ bool Solution::operator==(const Solution &other) const
 {
     if (size != other.size)
         return false;
-    return (0 == memcmp(distance, other.distance, size * sizeof(uint32_t)));
+    return (0 == memcmp(distance, other.distance, size * sizeof(int32_t)));
 }
 
 Solution &Solution::operator=(const Solution &other)
@@ -49,7 +49,7 @@ Solution &Solution::operator=(const Solution &other)
     dispose();
     size = other.size;
     initialize();
-    memcpy(distance, other.distance, size * sizeof(uint32_t));
+    memcpy(distance, other.distance, size * sizeof(int32_t));
     return *this;
 }
 

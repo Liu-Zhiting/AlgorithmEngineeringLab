@@ -1,8 +1,7 @@
 #include "utils.hpp"
 #include "static_adjoint_list.hpp"
-#include "adjoint_list.hpp"
 
-StaticAdjointList::StaticAdjointList(const AdjointList &other)
+StaticAdjointList::StaticAdjointList(const StaticAdjointList &other)
 {
     // init count and degree
     vertex_count = other.vertex_count;
@@ -13,20 +12,10 @@ StaticAdjointList::StaticAdjointList(const AdjointList &other)
     // init vertex
     neighbor = new uint32_t *[vertex_count];
     for (int i = 0; i < vertex_count; i++)
-        neighbor[i] = new uint32_t[out_degree[i]];
-    for (int i = 0; i < vertex_count; i++)
     {
-        int j = 0;
-        for (Node *p = other.neighbor[i].next; p != nullptr; p = p->next)
-        {
-            neighbor[i][j] = p->value;
-            j++;
-        }
+        neighbor[i] = new uint32_t[out_degree[i]];
+        memcpy(neighbor[i],other.neighbor[i],out_degree[i]);
     }
-}
-
-StaticAdjointList::StaticAdjointList(const StaticAdjointList &other)
-{
 }
 
 StaticAdjointList::StaticAdjointList(const char *filename, bool is_binary)

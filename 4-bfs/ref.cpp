@@ -6,13 +6,14 @@
 #include <algorithm>
 
 int ref_counter;
+bool* visited = nullptr;
 
 // mu: the number of edges to check from unexplored vertices
 int ref_get_mu(const Graph &graph, const Solution &solution)
 {
     int mu = 0;
     for (int i = 0; i < graph.get_vertex_count(); i++)
-        if (4294967295 == solution.distance[i])
+        if (-1 == solution.distance[i])
             mu += graph.out_degree[i];
     return mu;
 }
@@ -56,14 +57,17 @@ void ref_bottom_up_step(
 {
     for (int i = 0; i < graph.get_vertex_count(); i++)
     {
-        if (4294967295 != solution.distance[i])
+        if (visited[i])
             continue;
         for (int j = 0; j < graph.out_degree[i]; j++)
         {
-            if (!frontier_bitmap.at(graph.neighbor[i][j]))
-                continue;
-            solution.distance[i] = ref_counter;
-            next_bitmap.set(i, true);
+            if (frontier_bitmap.at(graph.neighbor[i][j]))
+            {
+                solution.distance[i] = ref_counter;
+                visited[i] = true;
+                next_bitmap.set(i, true);
+                break;
+            }
         }
     }
     ref_counter++;
@@ -77,23 +81,26 @@ void ref_top_down_step(
 {
     for (int i = 0; i < frontier->size(); i++)
     {
-        for (int j = 0; j < graph.out_degree[i]; j++)
+        uint32_t u = (*frontier)[i];
+        for (int j = 0; j < graph.out_degree[u]; j++)
         {
-            if (4294967295 != solution.distance[graph.neighbor[i][j]])
+            uint32_t v = graph.neighbor[u][j];
+            if (visited[v])
                 continue;
-            solution.distance[graph.neighbor[i][j]] = ref_counter;
-            next->push_back(graph.neighbor[i][j]); // write race here
+            visited[v] = true;
+            solution.distance[v] = ref_counter;
+            next->push_back(v); // write race here
         }
     }
     ref_counter++;
 }
 
 template <typename T>
-void ref_swap_pointer(T *&a, T *&b)
+void ref_swap_pointer(T **a, T **b)
 {
-    T *tmp = a;
-    a = b;
-    b = tmp;
+    T *tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
 void ref(const Graph &graph, Solution &solution)
@@ -101,6 +108,8 @@ void ref(const Graph &graph, Solution &solution)
     ref_counter = 1;
     uint32_t n = graph.get_vertex_count();
     bool is_top_down = true;
+    visited = new bool[n];
+    memset(visited,0,sizeof(bool)*n);
 
     // init meta data
     const int ALPHA = 14;
@@ -109,20 +118,21 @@ void ref(const Graph &graph, Solution &solution)
     // init frontier and next
     vector<uint32_t> q1, q2;
     vector<uint32_t> *frontier = &q1, *next = &q2;
-    memset(solution.distance, -1, sizeof(uint32_t) * solution.size);
     Bitmap b1(n), b2(n);
     Bitmap *frontier_bitmap = &b1, *next_bitmap = &b2;
 
     // push ROOT
     frontier->push_back(ROOT_ID);
     solution.distance[ROOT_ID] = 0;
+    visited[0] = true;
 
-    while ((is_top_down && !frontier->empty()) || (!is_top_down && !frontier_bitmap->is_empty()))
+    while ((is_top_down && !frontier->empty()) 
+        || (!is_top_down && !frontier_bitmap->is_empty()))
     {
         if (is_top_down)
         {
             ref_top_down_step(graph, solution, frontier, next);
-            ref_swap_pointer(frontier, next);
+            ref_swap_pointer(&frontier, &next);
             next->clear();
             if (ref_get_mf(graph, *frontier) > ref_get_mu(graph, solution) / ALPHA)
             {
@@ -134,7 +144,7 @@ void ref(const Graph &graph, Solution &solution)
         else
         {
             ref_bottom_up_step(graph, solution, *frontier_bitmap, *next_bitmap);
-            ref_swap_pointer(frontier_bitmap, next_bitmap);
+            ref_swap_pointer(&frontier_bitmap, &next_bitmap);
             next_bitmap->clear();
             if (frontier_bitmap->get_num_of_1() < n / BETA)
             {
@@ -144,4 +154,6 @@ void ref(const Graph &graph, Solution &solution)
             }
         }
     }
+
+    delete[] visited;
 }
