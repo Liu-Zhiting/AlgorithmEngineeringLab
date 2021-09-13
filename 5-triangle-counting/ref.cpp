@@ -1,7 +1,14 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 
-uint32_t par_sum(const uint32_t *const array, long length)
+#include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
+
+#define parallel_for cilk_for
+#define parallel_spawn cilk_spawn
+#define parallel_sync cilk_sync
+
+uint32_t ref_get_par_sum(const uint32_t *const array, long length)
 {
     uint32_t result = 0.0;
     if (length <= 256)
@@ -11,8 +18,8 @@ uint32_t par_sum(const uint32_t *const array, long length)
         return result;
     }
     uint32_t x, y;
-    parallel_spawn x = par_sum(array, length / 2);
-    y = par_sum((array + length / 2), length - length / 2);
+    parallel_spawn x = ref_get_par_sum(array, length / 2);
+    y = ref_get_par_sum((array + length / 2), length - length / 2);
     parallel_sync;
     result = x + y;
     return result;
@@ -39,7 +46,7 @@ uint32_t ref(const Graph &graph)
     parallel_for(int i = 0; i < n; i++)
         parallel_for(int j = 0; j < n; j++)
             tmp_result[i * n + j] = A[i][j] * A2[i][j];
-    result = par_sum(tmp_result, n * n);
+    result = ref_get_par_sum(tmp_result, n * n);
 
     result /= 6; //ij与ji都计算过一次，需要再次除以2
 

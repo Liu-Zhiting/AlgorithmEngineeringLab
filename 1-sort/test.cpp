@@ -7,9 +7,10 @@ string FileName = "";
 string TimingResult = "";
 
 vector<TestCase> test_list =
-    {
-        {"merge_sort", merge_sort},
-        {"quick_sort", quick_sort}};
+{
+    {"merge_sort", merge_sort},
+    {"quick_sort", quick_sort}
+};
 
 bool parse_args(int argc, char **argv)
 {
@@ -38,7 +39,6 @@ TestResult run_and_measure_time(TestCase test_case)
 {
     TestResult tc;
     tc.name = test_case.name;
-    tc.nworkers = __cilkrts_get_nworkers();
     try
     {
         Result = Source;
@@ -64,6 +64,7 @@ vector<TestResult> test_all()
     TestResult current_result;
 
     TestCase ref_case = {"ref", ref};
+    cout << "output of ref:" << endl;
     TestResult ref_result = run_and_measure_time(ref_case);
     Array compare(Result);
     ref_result.correctness = true;
@@ -71,6 +72,7 @@ vector<TestResult> test_all()
 
     for (int i = 0; i < test_list.size(); i++)
     {
+        cout << endl << "output of " << test_list[i].name << ':' << endl;
         current_result = run_and_measure_time(test_list[i]);
         current_result.correctness = (Result == compare);
         results.push_back(current_result);
@@ -81,38 +83,51 @@ vector<TestResult> test_all()
 
 void dump_result(vector<TestResult> &cases)
 {
+    // init string stream
     stringstream ss;
+    ss << left; // 左对齐
+    ss.setf(ios::fixed);
+    ss << setprecision(3); // 保留小数点后3位
 
     // init tab width
-    vector<int> tab_width(cases.size() + 1);
     int tail = 0;
-    tab_width[0] = 12; // magic number, length of "Worker(s)"
+    vector<int> tab_width(4);
+    tab_width[tail] = 0;
     for (int i = 0; i < cases.size(); i++)
-        tab_width[i + 1] = max((int)cases[i].name.length() + 2, 10);
-    ss << left;
+        if (tab_width[tail] < cases[i].name.length())
+            tab_width[tail] = cases[i].name.length();
+    tab_width[tail++] += 2;   // Name
+    tab_width[tail++] = 14; // Correctness
+    tab_width[tail++] = 10; // Time(s)
+    tab_width[tail++] = 11; // Speed Up
 
     // dump headline
-    if (1 == cases[0].nworkers)
-    {
-        ss << setw(tab_width[tail++]) << "Worker(s)";
-        for (int i = 0; i < cases.size(); i++)
-            ss << setw(tab_width[tail++]) << cases[i].name;
-        ss << endl;
-        tail = 0;
-    }
+    tail = 0;
+    ss << setw(tab_width[tail++]) << "Name";
+    ss << setw(tab_width[tail++]) << "Correctness";
+    ss << setw(tab_width[tail++]) << "Time(s)";
+    ss << setw(tab_width[tail++]) << "Speed Up" << endl;
 
-    ss << setw(tab_width[tail++]) << __cilkrts_get_nworkers();
+    // dump data of every cases
     for (int i = 0; i < cases.size(); i++)
     {
-        ss << setw(tab_width[tail++]);
-        if (!cases[i].correctness)
-            ss << "Wrong Ans";
-        else if (NAN == cases[i].time)
-            ss << "#Error";
+        tail = 0;
+        ss << setw(tab_width[tail++]) << cases[i].name;
+        ss << setw(tab_width[tail++]) << (cases[i].correctness ? "True" : "False");
+        if (NAN == cases[i].time)
+        {
+            ss << setw(tab_width[tail++]) << "#Error";
+            ss << setw(tab_width[tail++]) << "#Error";
+        }
         else
-            ss << cases[i].time;
+        {
+            ss << setw(tab_width[tail++]) << cases[i].time;
+            ss << setw(tab_width[tail++]) << (cases[0].time / cases[i].time);
+        }
+        ss << endl;
     }
-    ss << endl;
 
+    // flush to output string
     TimingResult += ss.str();
+    return;
 }

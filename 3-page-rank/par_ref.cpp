@@ -1,16 +1,31 @@
 #include "utils.hpp"
 #include "adjoint_list.hpp"
 #include "solution.hpp"
+#include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
 
-double ref_get_sum(const double *const array, const unsigned long length)
+#define parallel_for cilk_for
+#define parallel_spawn cilk_spawn
+#define parallel_sync cilk_sync
+
+double ref_get_par_sum(const double *const array, const unsigned long length)
 {
     double result = 0.0;
-    for (long i = 0; i < length; i++)
-        result += array[i];
+    if (length <= 256)
+    {
+        for (long i = 0; i < length; i++)
+            result += array[i];
+        return result;
+    }
+    double x, y;
+    parallel_spawn x = ref_get_par_sum(array, length / 2);
+    y = ref_get_par_sum((array + length / 2), length - length / 2);
+    parallel_sync;
+    result = x + y;
     return result;
 }
 
-void ref(const Graph &graph, Solution &solution)
+void par_ref(const Graph &graph, Solution &solution)
 {
     //init
     const double THRESHOLD = 1e-7;
@@ -28,7 +43,7 @@ void ref(const Graph &graph, Solution &solution)
     {
         adj_list[i] = new uint32_t[graph.out_degree[i]];
     };
-    for(int i = 0; i < graph.vertex_count; i++)
+    parallel_for(int i = 0; i < graph.vertex_count; i++)
     {
         int j = 0;
         for (Node *p = graph.vertex[i].next; p != nullptr; p = p->next)
@@ -41,7 +56,7 @@ void ref(const Graph &graph, Solution &solution)
     // iterate to calculate page rank
     while (avg_delta > THRESHOLD)
     {
-        for (int i = 0; i < graph.vertex_count; i++)
+        parallel_for (int i = 0; i < graph.vertex_count; i++)
         {
             double s = 0.0;
             double tmp = 0.0;            
@@ -52,7 +67,7 @@ void ref(const Graph &graph, Solution &solution)
             solution.value[i] = tmp;
         };
 
-        avg_delta = (ref_get_sum(delta, graph.vertex_count) / graph.vertex_count);
+        avg_delta = (ref_get_par_sum(delta, graph.vertex_count) / graph.vertex_count);
         
         counter++;
     }

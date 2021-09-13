@@ -2,7 +2,7 @@
 #include "adjoint_list.hpp"
 #include "solution.hpp"
 
-void iterate_rank(const AdjointList &graph, Solution &solution)
+void iterate_rank(const Graph &graph, Solution &solution)
 {
     
 }

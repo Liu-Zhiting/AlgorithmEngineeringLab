@@ -21,7 +21,7 @@ public:
     Node *vertex;
 
     AdjointList() : vertex_count(0), edge_count(0), out_degree(nullptr), vertex(nullptr){};
-    AdjointList(const int vertex_count) : vertex_count(vertex_count), edge_count(0), out_degree(nullptr), vertex(nullptr) { initialize(); };
+    AdjointList(const int vertex_count) : vertex_count(vertex_count), edge_count(0), out_degree(nullptr), in_degree(nullptr), vertex(nullptr) { initialize(); };
     AdjointList(const AdjointList &other);
     ~AdjointList() { dispose(); };
 

@@ -39,7 +39,7 @@ bool Solution::operator==(const Solution &other) const
 {
     if (size != other.size)
         return false;
-    const double _EPSILON = 1e-6;
+    const double _EPSILON = 1e-5;
     for(int i = 0; i < size; i++)
         if(abs(value[i] - other.value[i])>_EPSILON)
             return false;

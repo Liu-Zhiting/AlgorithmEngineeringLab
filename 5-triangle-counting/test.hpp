@@ -15,7 +15,6 @@ struct TestCase
 struct TestResult
 {
     string name;
-    int nworkers;
     double time;
     bool correctness;
     fun_ptr func;
