@@ -8,8 +8,8 @@
 
 using namespace std;
 
-class AdjointList;
-using Graph = AdjointList;
+class StaticAdjointList;
+using Graph = StaticAdjointList;
 
 typedef uint32_t (*fun_ptr)(const Graph &graph);
 

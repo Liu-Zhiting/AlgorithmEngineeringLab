@@ -1,5 +1,5 @@
 #include "utils.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 #include "solution.hpp"
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
@@ -30,50 +30,31 @@ void par_ref(const Graph &graph, Solution &solution)
     //init
     const double THRESHOLD = 1e-7;
     const double d = 0.85;
-    double *delta = new double[graph.vertex_count];
+    const int n = graph.get_vertex_count();
+    double *delta = new double[n];
     double max_delta = 0.0, min_delta = INFINITY, avg_delta = INFINITY;
     int counter = 0;
-    AdjointList graph_inv(graph.vertex_count);
-    for (int i = 0; i < graph.vertex_count; i++)
-        solution.value[i] = 1.0 / graph.vertex_count;
-
-    // convert graph to array-adjlist to enhance performance
-    uint32_t **adj_list = new uint32_t *[graph.vertex_count];
-    for (int i = 0; i < graph.vertex_count; i++)
-    {
-        adj_list[i] = new uint32_t[graph.out_degree[i]];
-    };
-    parallel_for(int i = 0; i < graph.vertex_count; i++)
-    {
-        int j = 0;
-        for (Node *p = graph.vertex[i].next; p != nullptr; p = p->next)
-        {
-            adj_list[i][j] = p->value;
-            j++;
-        }
-    };
+    for (int i = 0; i < n; i++)
+        solution.value[i] = 1.0 / n;
 
     // iterate to calculate page rank
     while (avg_delta > THRESHOLD)
     {
-        parallel_for (int i = 0; i < graph.vertex_count; i++)
+        parallel_for (int i = 0; i < n; i++)
         {
             double s = 0.0;
             double tmp = 0.0;            
             for (int j = 0; j < graph.out_degree[i]; j++)
-                s += solution.value[adj_list[i][j]] / graph.out_degree[adj_list[i][j]];
-            tmp = (1 - d) / graph.vertex_count + d * s;
+                s += solution.value[graph.neighbor[i][j]] / graph.out_degree[graph.neighbor[i][j]];
+            tmp = (1 - d) / n + d * s;
             delta[i] = abs(tmp - solution.value[i]);
             solution.value[i] = tmp;
         };
 
-        avg_delta = (ref_get_par_sum(delta, graph.vertex_count) / graph.vertex_count);
+        avg_delta = (ref_get_par_sum(delta, n) / n);
         
         counter++;
     }
 
     delete[] delta;
-    for (int i = 0; i < graph.vertex_count; i++)
-        delete[] adj_list[i];
-    delete[] adj_list;
 }

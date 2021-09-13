@@ -1,5 +1,5 @@
 #include "utils.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
@@ -27,7 +27,7 @@ uint32_t ref_get_par_sum(const uint32_t *const array, long length)
 
 uint32_t ref(const Graph &graph)
 {
-    const uint32_t n = graph.vertex_count;
+    const uint32_t n = graph.get_vertex_count();
     uint32_t result = 0;
     uint32_t *tmp_result = new uint32_t[n * n];
     uint32_t **A = graph.convert_to_adjoint_matrix();

@@ -1,5 +1,5 @@
 #include "utils.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 #include "solution.hpp"
 
 void Solution::initialize()
@@ -28,10 +28,10 @@ Solution::Solution(const Solution &other) : size(other.size), value(nullptr)
     memcpy(value, other.value, other.size * sizeof(double));
 }
 
-void Solution::attach_to_graph(const AdjointList &graph)
+void Solution::attach_to_graph(const Graph &graph)
 {
     dispose();
-    size = graph.vertex_count;
+    size = graph.get_vertex_count();
     initialize();
 }
 

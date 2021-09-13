@@ -17,7 +17,6 @@ struct TestResult
     string name;
     double time;
     bool correctness;
-    fun_ptr func;
 };
 
 TestResult run_and_measure_time(TestCase);

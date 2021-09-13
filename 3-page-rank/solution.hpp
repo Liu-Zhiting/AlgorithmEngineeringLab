@@ -14,7 +14,7 @@ public:
     Solution(const Solution &other);
     ~Solution() { dispose(); };
 
-    void attach_to_graph(const AdjointList &graph);
+    void attach_to_graph(const Graph &graph);
     void clear() { memset(value, 0, size * sizeof(double)); };
     void dump() const;
 
