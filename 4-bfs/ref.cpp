@@ -5,6 +5,13 @@
 #include <vector>
 #include <algorithm>
 
+#include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
+
+#define parallel_for cilk_for
+#define parallel_spawn cilk_spawn
+#define parallel_sync cilk_sync
+
 int ref_counter;
 bool* visited = nullptr;
 
@@ -13,7 +20,7 @@ int ref_get_mu(const Graph &graph, const Solution &solution)
 {
     int mu = 0;
     for (int i = 0; i < graph.get_vertex_count(); i++)
-        if (-1 == solution.distance[i])
+        if (0 == solution.distance[i] && i != ROOT_ID)
             mu += graph.out_degree[i];
     return mu;
 }
@@ -33,9 +40,7 @@ void ref_vector2bitmap(
 {
     frontier_bitmap.clear();
     for (int i = 0; i < frontier->size(); i++)
-    {
         frontier_bitmap.set(frontier->at(i), true);
-    }
 }
 
 void ref_bitmap2vector(
@@ -43,10 +48,8 @@ void ref_bitmap2vector(
     vector<uint32_t> *const frontier)
 {
     for (int i = 0; i < frontier_bitmap.get_capacity(); i++)
-    {
         if (frontier_bitmap.at(i))
             frontier->push_back(i);
-    }
 }
 
 void ref_bottom_up_step(
