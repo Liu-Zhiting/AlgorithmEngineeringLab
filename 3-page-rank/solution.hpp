@@ -10,7 +10,7 @@ public:
     uint32_t size;
     double *value;
     Solution() : size(0), value(nullptr){};
-    Solution(uint32_t size) : value(nullptr) { initialize(); };
+    Solution(uint32_t size) : value(nullptr), size(size) { initialize(); };
     Solution(const Solution &other);
     ~Solution() { dispose(); };
 
