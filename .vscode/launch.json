@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/1-sort/sort",
             "args": [
-                "${workspaceFolder}/data/array_repeated_20Mil.bin"
+                "${workspaceFolder}/data/array_10Mil.bin"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

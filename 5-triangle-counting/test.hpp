@@ -15,10 +15,8 @@ struct TestCase
 struct TestResult
 {
     string name;
-    int nworkers;
     double time;
     bool correctness;
-    fun_ptr func;
 };
 
 TestResult run_and_measure_time(TestCase);

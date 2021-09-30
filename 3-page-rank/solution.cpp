@@ -1,5 +1,5 @@
 #include "utils.hpp"
-#include "adjoint_list.hpp"
+#include "static_adjoint_list.hpp"
 #include "solution.hpp"
 
 void Solution::initialize()
@@ -28,10 +28,10 @@ Solution::Solution(const Solution &other) : size(other.size), value(nullptr)
     memcpy(value, other.value, other.size * sizeof(double));
 }
 
-void Solution::attach_to_graph(const AdjointList &graph)
+void Solution::attach_to_graph(const Graph &graph)
 {
     dispose();
-    size = graph.vertex_count;
+    size = graph.get_vertex_count();
     initialize();
 }
 
@@ -39,7 +39,7 @@ bool Solution::operator==(const Solution &other) const
 {
     if (size != other.size)
         return false;
-    const double _EPSILON = 1e-6;
+    const double _EPSILON = 1e-5;
     for(int i = 0; i < size; i++)
         if(abs(value[i] - other.value[i])>_EPSILON)
             return false;

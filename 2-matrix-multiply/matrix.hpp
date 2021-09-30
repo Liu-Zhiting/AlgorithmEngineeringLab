@@ -22,4 +22,5 @@ public:
     void resize(uint32_t size);
     uint32_t get_size() const { return size; };
     void multiply_by_func(const Matrix &left, const Matrix &right, fun_ptr func);
+    void dump() const;
 };

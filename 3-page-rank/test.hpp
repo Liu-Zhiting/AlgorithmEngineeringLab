@@ -15,7 +15,6 @@ struct TestCase
 struct TestResult
 {
     string name;
-    int nworkers;
     double time;
     bool correctness;
 };
@@ -24,6 +23,7 @@ TestResult run_and_measure_time(TestCase);
 vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
-void ref(const AdjointList &graph, Solution &solution);
-void iterate_rank(const AdjointList &graph, Solution &solution);
-void accurate_rank(const AdjointList &graph, Solution &solution);
+void ref(const Graph &graph, Solution &solution);
+void par_ref(const Graph &graph, Solution &solution);
+void iterate_rank(const Graph &graph, Solution &solution);
+void accurate_rank(const Graph &graph, Solution &solution);

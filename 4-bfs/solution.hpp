@@ -10,7 +10,7 @@ public:
     uint32_t size;
     int32_t *distance;
     Solution() : size(0), distance(nullptr){};
-    Solution(uint32_t size) : distance(nullptr) { initialize(); };
+    Solution(uint32_t size) : distance(nullptr), size(size) { initialize(); };
     Solution(const Solution &other);
     ~Solution() { dispose(); };
 

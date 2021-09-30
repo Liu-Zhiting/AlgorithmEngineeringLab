@@ -14,7 +14,10 @@ bool Matrix::operator==(const Matrix &other) const
 {
     if (size != other.size)
         return false;
-    return (0 == memcmp(data, other.data, size));
+    for(int i = 0; i < size; i++)
+        if(memcmp(other.data[i],data[i],size))
+            return false;
+    return true;
 }
 
 Matrix &Matrix::operator=(const Matrix &other)
@@ -109,4 +112,14 @@ void Matrix::multiply_by_func(const Matrix &left, const Matrix &right, fun_ptr f
     assert(left.size == right.size);
     assert(size == right.size);
     func(left.data, right.data, data, size);
+}
+
+void Matrix::dump() const
+{
+    for(int i = 0; i < size; i++)
+    {
+        for(int j = 0; j < size; j++)
+            cout << data[i][j] << ' ';
+        cout << endl;
+    }
 }

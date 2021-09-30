@@ -6,12 +6,12 @@
 #include <vector>
 #include <cmath>
 
-#include <cilk/cilk.h>
-#include <cilk/cilk_api.h>
+// #include <cilk/cilk.h>
+// #include <cilk/cilk_api.h>
 
-#define parallel_for cilk_for
-#define parallel_spawn cilk_spawn
-#define parallel_sync cilk_sync
+// #define parallel_for cilk_for
+// #define parallel_spawn cilk_spawn
+// #define parallel_sync cilk_sync
 
 using namespace std;
 

@@ -10,11 +10,11 @@ public:
     uint32_t size;
     double *value;
     Solution() : size(0), value(nullptr){};
-    Solution(uint32_t size) : value(nullptr) { initialize(); };
+    Solution(uint32_t size) : value(nullptr), size(size) { initialize(); };
     Solution(const Solution &other);
     ~Solution() { dispose(); };
 
-    void attach_to_graph(const AdjointList &graph);
+    void attach_to_graph(const Graph &graph);
     void clear() { memset(value, 0, size * sizeof(double)); };
     void dump() const;
 

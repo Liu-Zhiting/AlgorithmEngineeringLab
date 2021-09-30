@@ -15,7 +15,6 @@ struct TestCase
 struct TestResult
 {
     string name;
-    int nworkers;
     double time;
     bool correctness;
 };
@@ -25,6 +24,7 @@ vector<TestResult> test_all();
 void dump_result(vector<TestResult> &cases);
 
 void ref(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size);
+void par_ref(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size);
 void loop(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size);
 void divide_and_conquer(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size);
 void strassen(const int32_t *const *const a, const int32_t *const *const b, int32_t *const *const c, const uint32_t size);
