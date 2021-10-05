@@ -149,7 +149,7 @@ void ref(const Graph &graph, Solution &solution)
             ref_bottom_up_step(graph, solution, *frontier_bitmap, *next_bitmap);
             ref_swap_pointer(&frontier_bitmap, &next_bitmap);
             next_bitmap->clear();
-            if (frontier_bitmap->get_num_of_1() < n / BETA)
+            if (frontier_bitmap->get_popcount() < n / BETA)
             {
                 ref_bitmap2vector(*frontier_bitmap, frontier);
                 next->clear();

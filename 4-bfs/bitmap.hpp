@@ -4,20 +4,37 @@ class Bitmap
 {
 private:
     unsigned int capacity;
-    char *value;
+    unsigned char *value;
+    unsigned char *zero;
+    const unsigned int __popcount_tab[256] = {
+        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
+    };
 
 public:
     Bitmap(const unsigned int capacity) : capacity(capacity)
     {
-        value = new char[(capacity / 8 + 1)];
+        value = new unsigned char[(capacity / 8 + 1)];
+        zero = new unsigned char[(capacity / 8 + 1)];
+        memset(zero, 0, (capacity / 8 + 1) * sizeof(unsigned char));
         clear();
     }
 
-    ~Bitmap() { delete[] value; }
+    ~Bitmap()
+    {
+        delete[] value;
+        delete[] zero;
+    }
 
     bool at(unsigned int index) const
     {
-        return (bool)(value[index / 8] & (1 << index % 8));
+        return (value[index >> 3] & (1 << index & 0x7));
     }
 
     void set(unsigned int index, bool state)
@@ -28,35 +45,17 @@ public:
             value[index / 8] &= ~(1 << index % 8);
     }
 
-    void clear() { memset(value, 0, (capacity / 8 + 1) * sizeof(char)); }
+    void clear() { memset(value, 0, (capacity / 8 + 1) * sizeof(unsigned char)); }
 
-    bool is_empty() const
-    {
-        for (int i = 0; i < (capacity / 8 + 1); i++)
-        {
-            if (value[i] != 0)
-                return false;
-        }
-        return true;
-    }
+    bool is_empty() const { return (0 == memcmp(zero, value, (capacity / 8 + 1))); }
 
     unsigned int get_capacity() const { return capacity; }
 
-    unsigned int get_num_of_1() const
+    unsigned int get_popcount() const
     {
-        auto count_1 = [](char byte) -> unsigned int
-        {
-            unsigned int result = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                result += byte & 1;
-                byte >>= 1;
-            }
-            return result;
-        };
         unsigned int result = 0;
         for (int i = 0; i < (capacity / 8 + 1); i++)
-            result += count_1(value[i]);
+            result += __popcount_tab[value[i]];
         return result;
     }
 };

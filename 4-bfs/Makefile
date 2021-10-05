@@ -10,7 +10,7 @@ BIN_TARGET = ${DIR_BIN}/${TARGET}
 CC = clang++
 # CC = g++
 
-CFLAGS = -g -fcilkplus
+CFLAGS = -g -fcilkplus -pg
 # CFLAGS = -fcilkplus -O2
 
 ${BIN_TARGET}:${SRC}
