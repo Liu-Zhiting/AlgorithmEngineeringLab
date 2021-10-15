@@ -185,8 +185,9 @@ A\[i\]\[k\] · A\[k\]\[j\]=1的含义是，点i到点k是连通的且点k到点j
 
 
 
-## 参考资料
+## 参考文献
 
-https://people.csail.mit.edu/jshun/triangle.pdf
+\[1\]Shun J, Tangwongsan K. Multicore triangle computations without tuning[C]//2015 IEEE 31st International Conference on Data Engineering. IEEE, 2015: 149-160.
 
-https://www.cs.cmu.edu/~15750/notes/lec1.pdf
+\[2\]www.cs.cmu.edu. Triangle Counting and Matrix Multiplication[EB/OL]. [2021-10-15]. https://www.cs.cmu.edu/~15750/notes/lec1.pdf.
+

@@ -155,8 +155,7 @@ void dump() const; // 将数据输出在控制台中
 
 
 
-## 参考资料
+## 参考文献
 
-http://www.scottbeamer.net/pubs/beamer-sc2012.pdf
+\[1\]Beamer S, Asanovic K, Patterson D. Direction-optimizing breadth-first search[C]//SC'12: Proceedings of the International Conference on High Performance Computing, Networking, Storage and Analysis. IEEE, 2012: 1-10.
 
-https://github.com/stanford-cs149/asst4

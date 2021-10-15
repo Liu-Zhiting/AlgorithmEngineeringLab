@@ -97,11 +97,11 @@ sort <filename>
 
 
 
-## 参考资料
+## 参考文献
 
-https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F
+\[1\]维基百科. 快速排序[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.
 
-https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F
+\[2\]维基百科. 归并排序[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F.
 
-https://zhuanlan.zhihu.com/p/93279731
+\[3\]Yan Gu. 并行算法科普向 系列之三：归并与归并排序，过滤与快速排序[EB/OL]. [2021-10-15]. https://zhuanlan.zhihu.com/p/93279731.
 

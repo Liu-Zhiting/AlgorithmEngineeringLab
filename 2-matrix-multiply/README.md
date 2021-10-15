@@ -118,8 +118,8 @@ for(int i = 0;i < n;i++)
 
 
 
-## 参考资料
+## 参考文献
 
-https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-172-performance-engineering-of-software-systems-fall-2018/lecture-slides/MIT6_172F18_lec1.pdf
+\[1\]Charles E. Leiserson. Introduction & Matrix Multiplication[EB/OL]. [2021-10-15]. https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-172-performance-engineering-of-software-systems-fall-2018/lecture-slides/MIT6_172F18_lec1.pdf.
 
-https://zh.wikipedia.org/wiki/%E6%96%BD%E7%89%B9%E6%8B%89%E6%A3%AE%E6%BC%94%E7%AE%97%E6%B3%95
+\[2\]维基百科. 施特拉森算法[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/%E6%96%BD%E7%89%B9%E6%8B%89%E6%A3%AE%E6%BC%94%E7%AE%97%E6%B3%95.

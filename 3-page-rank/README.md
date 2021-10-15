@@ -195,8 +195,8 @@ PageRank的结果来源于一种基于图论的数学算法。它将万维网上
 
 
 
-## 参考资料
+## 参考文献
 
-https://zhuanlan.zhihu.com/p/137561088
+\[1\]MLPod. PageRank算法详解[EB/OL]. [2021-10-15]. https://zhuanlan.zhihu.com/p/137561088.
 
-https://zh.wikipedia.org/wiki/PageRank
+\[2\]维基百科. PageRank[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/PageRank.
