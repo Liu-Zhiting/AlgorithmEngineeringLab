@@ -104,7 +104,7 @@ for(int i = 0;i < n;i++)
 
 引入新矩阵
 
-<img src="https://latex.codecogs.com/svg.image?M_{1}&space;=&space;(A_{1,1}&plus;A_{2,2})(B_{1,1}&plus;B_{2,2})&space;\\M_{2}&space;=&space;(A_{2,1}&plus;A_{2,2})B_{1,1}&space;\\M_{3}&space;=&space;A_{1,1}(B_{1,2}-B_{2,2})&space;\\M_{4}&space;=&space;A_{2,2}(B_{2,1}-B_{1,1})&space;\\M_{5}&space;=&space;(A_{1,1}&plus;A_{2,2})B_{2,2}&space;\\M_{6}&space;=&space;(A_{2,1}-A_{1,1})(B_{1,1}&plus;B_{1,2})&space;\\M_{7}&space;=&space;(A_{1,2}-A_{2,2})(B_{2,1}&plus;B_{2,2})" title="M_{1} = (A_{1,1}+A_{2,2})(B_{1,1}+B_{2,2}) \\M_{2} = (A_{2,1}+A_{2,2})B_{1,1} \\M_{3} = A_{1,1}(B_{1,2}-B_{2,2}) \\M_{4} = A_{2,2}(B_{2,1}-B_{1,1}) \\M_{5} = (A_{1,1}+A_{2,2})B_{2,2} \\M_{6} = (A_{2,1}-A_{1,1})(B_{1,1}+B_{1,2}) \\M_{7} = (A_{1,2}-A_{2,2})(B_{2,1}+B_{2,2})"/>
+<img src="https://latex.codecogs.com/svg.image?M_{1}&space;=&space;(A_{1,1}&plus;A_{2,2})(B_{1,1}&plus;B_{2,2})&space;\\M_{2}&space;=&space;(A_{2,1}&plus;A_{2,2})B_{1,1}&space;\\M_{3}&space;=&space;A_{1,1}(B_{1,2}-B_{2,2})&space;\\M_{4}&space;=&space;A_{2,2}(B_{2,1}-B_{1,1})&space;\\M_{5}&space;=&space;(A_{1,1}&plus;A_{1,2})B_{2,2}&space;\\M_{6}&space;=&space;(A_{2,1}-A_{1,1})(B_{1,1}&plus;B_{1,2})&space;\\M_{7}&space;=&space;(A_{1,2}-A_{2,2})(B_{2,1}&plus;B_{2,2})" title="M_{1} = (A_{1,1}+A_{2,2})(B_{1,1}+B_{2,2}) \\M_{2} = (A_{2,1}+A_{2,2})B_{1,1} \\M_{3} = A_{1,1}(B_{1,2}-B_{2,2}) \\M_{4} = A_{2,2}(B_{2,1}-B_{1,1}) \\M_{5} = (A_{1,1}+A_{1,2})B_{2,2} \\M_{6} = (A_{2,1}-A_{1,1})(B_{1,1}+B_{1,2}) \\M_{7} = (A_{1,2}-A_{2,2})(B_{2,1}+B_{2,2})"/>
 
 可得：
 
