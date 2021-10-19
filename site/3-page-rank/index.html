@@ -1,0 +1,759 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>3-page-rank - Algorithm Engineering Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-page-rank" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Algorithm Engineering Lab" class="md-header__button md-logo" aria-label="Algorithm Engineering Lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Algorithm Engineering Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3-page-rank
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      算法工程实验
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../1-sort/" class="md-tabs__link">
+      1-sort
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../2-matrix-multiply/" class="md-tabs__link">
+      2-matrix-multiply
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      3-page-rank
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../4-bfs/" class="md-tabs__link">
+      4-bfs
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../5-triangle-counting/" class="md-tabs__link">
+      5-triangle-counting
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Algorithm Engineering Lab" class="md-nav__button md-logo" aria-label="Algorithm Engineering Lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Algorithm Engineering Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        算法工程实验
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-sort/" class="md-nav__link">
+        1-sort
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-matrix-multiply/" class="md-nav__link">
+        2-matrix-multiply
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3-page-rank
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        3-page-rank
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本信息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    数据结构
+  </a>
+  
+    <nav class="md-nav" aria-label="数据结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#struct-node" class="md-nav__link">
+    struct Node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-adjointlist" class="md-nav__link">
+    class AdjointList
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-solution" class="md-nav__link">
+    class Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pagerank" class="md-nav__link">
+    预备知识：PageRank
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    任务1：迭代算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    任务2：代数算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    参考文献
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-bfs/" class="md-nav__link">
+        4-bfs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-triangle-counting/" class="md-nav__link">
+        5-triangle-counting
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本信息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    数据结构
+  </a>
+  
+    <nav class="md-nav" aria-label="数据结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#struct-node" class="md-nav__link">
+    struct Node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-adjointlist" class="md-nav__link">
+    class AdjointList
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class-solution" class="md-nav__link">
+    class Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pagerank" class="md-nav__link">
+    预备知识：PageRank
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    任务1：迭代算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    任务2：代数算法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    参考文献
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="3-page-rank">3-page-rank</h1>
+<p>计算简单图的page-rank值</p>
+<h2 id="_1">基本信息</h2>
+<p><strong>输入文件格式</strong></p>
+<p>邻接表。</p>
+<p>文件为二进制格式，最前端4个字节是一个无符号32位整数n，表示图的点数，之后n个4字节无符号整数表示n个点的出度out_degree，之后每out_degree[i]个4字节无符号整数表示被第i个点指向的点</p>
+<p><strong>函数格式</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">example_function</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AdjointList</span><span class="w"> </span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="n">Solution</span><span class="w"> </span><span class="o">&amp;</span><span class="n">solution</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p><strong>编译指令</strong></p>
+<div class="highlight"><pre><span></span><code><span class="err">make</span>
+</code></pre></div>
+<p><strong>清理指令</strong></p>
+<div class="highlight"><pre><span></span><code><span class="err">make</span> <span class="err">clean</span>
+</code></pre></div>
+<p><strong>运行指令</strong></p>
+<div class="highlight"><pre><span></span><code>page-rank &lt;filename&gt;
+</code></pre></div>
+<h2 id="_2">数据结构</h2>
+<h3 id="struct-node">struct Node</h3>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Node</span><span class="w"></span>
+
+<span class="p">{</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">struct</span> <span class="nc">Node</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"> </span><span class="n">Node</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p><code>Node</code>结构用于<code>class AdjointList</code>中链表的实现</p>
+<h3 id="class-adjointlist">class AdjointList</h3>
+<p>邻接表数据</p>
+<div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">vertex_count</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">edge_count</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">out_degree</span><span class="p">;</span><span class="w"> </span><span class="c1">// out_degree[i]储存节点i的出度</span>
+<span class="n">Node</span><span class="w"> </span><span class="o">*</span><span class="n">vertex</span><span class="p">;</span><span class="w">   </span><span class="c1">// vertex[i]的next指向一个包含节点i指向的点的链表</span>
+</code></pre></div>
+<p>构造函数与析构函数</p>
+<div class="highlight"><pre><span></span><code><span class="n">AdjointList</span><span class="p">();</span><span class="w"></span>
+<span class="n">AdjointList</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">vertex_count</span><span class="p">);</span><span class="w"></span>
+<span class="n">AdjointList</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AdjointList</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span><span class="w"> </span><span class="c1">// 拷贝构造函数</span>
+<span class="o">~</span><span class="n">AdjointList</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>常用运算符与函数</p>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AdjointList</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
+<span class="n">AdjointList</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AdjointList</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">add_edge</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">to</span><span class="p">);</span><span class="w"></span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">search_edge</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">to</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">remove_edge</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">to</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="o">**</span><span class="nf">convert_to_adjoint_matrix</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// 转换为图的邻接矩阵</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">dump_adjoint_list</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// 将表内数据输出在控制台中</span>
+</code></pre></div>
+<p>完整内容参见adjoint_list.hpp与adjoint_list.cpp</p>
+<h3 id="class-solution">class Solution</h3>
+<p>数据</p>
+<div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w">  </span><span class="c1">// 图的节点个数</span>
+<span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">;</span><span class="w">  </span><span class="c1">// value[i]存储最终的第i个节点的PageRank值</span>
+</code></pre></div>
+<p>构造函数与析构函数</p>
+<div class="highlight"><pre><span></span><code><span class="n">Solution</span><span class="p">();</span><span class="w"></span>
+<span class="n">Solution</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="n">Solution</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Solution</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span><span class="w">  </span><span class="c1">// 拷贝构造函数</span>
+<span class="o">~</span><span class="n">Solution</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>常用运算符与函数</p>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Solution</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
+<span class="n">Solution</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Solution</span><span class="w"> </span><span class="o">&amp;</span><span class="n">other</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">clear</span><span class="p">();</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">dump</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"> </span><span class="c1">// 将数据输出在控制台中</span>
+</code></pre></div>
+<p>完整内容参见solution.hpp与solution.cpp</p>
+<h2 id="pagerank">预备知识：PageRank</h2>
+<p>PageRank是<a href="https://zh.wikipedia.org/wiki/Google">Google</a>公司所使用的对其搜索引擎搜索结果中的网页进行排名的一种算法，它本质上是一种以网页之间的超链接个数和质量作为主要因素粗略地分析网页的重要性的算法，其基本假设是：更重要的页面往往更多地被其他页面引用（或称其他页面中会更多地加入通向该页面的超链接）。</p>
+<p>PageRank的结果来源于一种基于图论的数学算法。它将万维网上所有的网页视作节点（node），而将超链接视作边（edge）。通向该网页的超链接称做“对该网页的投票（a vote of support）”。</p>
+<p>假设一个由4个网页组成的集合：<strong>A</strong>，<strong>B</strong>，<strong>C</strong>和<strong>D</strong>。这里将同一页面中多个指向相同的链接视为同一个链接。对于特定的页面，它的<strong>PR值</strong>（PageRank值）将均分到该页面所链接的页面上。</p>
+<blockquote>
+<p>注：此处以及下文中的链接均为单向链接，即A-&gt;B不等价于B-&gt;A</p>
+</blockquote>
+<p>如果所有页面都只链接至<strong>A</strong>，那么<strong>A</strong>的PR值将是<strong>B</strong>，<strong>C</strong>及<strong>D</strong>的PR值之和，即：</p>
+<p><img src="https://latex.codecogs.com/svg.image?PR(A)=PR(B)&plus;PR(C)&plus;PR(D)" title="PR(A)=PR(B)+PR(C)+PR(D)" /></p>
+<p>重新假设<strong>B</strong>链接到<strong>A</strong>和<strong>C</strong>，<strong>C</strong>链接到<strong>A</strong>，并且<strong>D</strong>链接到<strong>A</strong>,<strong>B</strong>,<strong>C</strong>。最初一个页面总共只有一票。所以<strong>B</strong>给<strong>A</strong> ,<strong>C</strong>每个页面半票。以此类推，<strong>D</strong>投出的票只有三分之一加到了<strong>A</strong>的PR值上：</p>
+<p><img src="https://latex.codecogs.com/svg.image?PR(A)=\frac{PR(B)}{2}&plus;\frac{PR(C)}{1}&plus;\frac{PR(D)}{3}" title="PR(A)=\frac{PR(B)}{2}+\frac{PR(C)}{1}+\frac{PR(D)}{3}" /></p>
+<p>换句话说，算法将根据每个页面连出总数L(x)（<strong>亦即图中节点的出度</strong>）平分该页面的PR值，并将其加到其所指向的页面：</p>
+<p><img src="https://latex.codecogs.com/svg.image?PR(A)=\frac{PR(B)}{L(B)}&plus;\frac{PR(C)}{L(C)}&plus;\frac{PR(D)}{L(D)}" title="PR(A)=\frac{PR(B)}{L(B)}+\frac{PR(C)}{L(C)}+\frac{PR(D)}{L(D)}" /></p>
+<p>最后，所有这些PR值被换算成百分比形式再乘上一个修正系数 d。d的大小可以由一般上网者使用浏览器书签功能的频率的平均值估算得到，其意义是：任意时刻，用户访问到某页面后继续访问下一个页面的概率。<strong>一般情况下，修正系数d的取值是0.85</strong>。由于“没有向外链接的网页”传递出去的PR值会是0，而这会递归地导致指向它的页面的PR值的计算结果同样为零，所以赋给每个页面一个最小值(1-d)/N:</p>
+<p><img src="https://latex.codecogs.com/svg.image?PR(A)=\begin{pmatrix}&space;&space;\frac{PR(B)}{L(B)}&plus;\frac{PR(C)}{L(C)}&plus;\frac{PR(D)}{L(D)}\end{pmatrix}d&plus;\frac{1-d}{N}" title="PR(A)=\begin{pmatrix} \frac{PR(B)}{L(B)}+\frac{PR(C)}{L(C)}+\frac{PR(D)}{L(D)}\end{pmatrix}d+\frac{1-d}{N}" /></p>
+<p>所以，对于某个页面i，其对应PR值大小的计算公式如下：</p>
+<p><img src="https://latex.codecogs.com/svg.image?PR(p_{i})=\frac{1-d}{N}&plus;d\sum_{p_{j}\in&space;Q(p_{i})}\frac{PR(p_{j})}{L(p_{j})}" title="PR(p_{i})=\frac{1-d}{N}+d\sum_{p_{j}\in Q(p_{i})}\frac{PR(p_{j})}{L(p_{j})}" /></p>
+<p>其中Q(pi)是链入页面pi的集合。</p>
+<p>集合中所有页面的PR值可以由一个特殊的邻接矩阵的特征向量R表示。下面写出R的迭代式：</p>
+<p><img src="https://latex.codecogs.com/svg.image?Set\&space;matrix\&space;M=\begin{bmatrix}&space;&space;&space;l(p_{1},p_{1})&space;&&space;l(p_{1},p_{2})&space;&&space;\cdots&space;&&space;l(p_{1},p_{N})&space;\\&space;&space;&space;l(p_{2},p_{1})&space;&&space;\ddots&space;&&space;&&space;\vdots&space;\\&space;&space;&space;\vdots&space;&&space;&&space;l(p_{i},p_{j})&space;&&space;\\&space;&space;&space;l(p_{N},p_{1})&space;&&space;&&space;&l(p_{N},p_{N})\end{bmatrix}&space;\\\\Where\&space;l(p_{i},p_{j})&space;=\left\{\begin{matrix}\frac{1}{L(j)},&space;page\&space;j\&space;has\&space;a\&space;link\&space;to\&space;page\&space;i\&space;\\0,&space;page\&space;j\&space;has\&space;no\&space;link\&space;to\&space;page\&space;i&space;\\\end{matrix}\right.,&space;\\L(j)\&space;is\&space;the\&space;total\&space;number\&space;of\&space;links\&space;out\&space;of\&space;page\&space;j&space;(that\&space;is,\&space;the\&space;outgoing\&space;degree\&space;of\&space;nodes\&space;in\&space;the\&space;graph)\\Then\&space;R'=&space;\begin{bmatrix}PR(p_{1})&space;\\PR(p_{2})&space;\\\vdots&space;\\PR(p_{N})&space;\\\end{bmatrix}&space;=&space;\frac{1-d}{n}1&plus;dMR" title="Set\ matrix\ M=\begin{bmatrix} l(p_{1},p_{1}) & l(p_{1},p_{2}) & \cdots & l(p_{1},p_{N}) \\ l(p_{2},p_{1}) & \ddots & & \vdots \\ \vdots & & l(p_{i},p_{j}) & \\ l(p_{N},p_{1}) & & &l(p_{N},p_{N})\end{bmatrix} \\\\Where\ l(p_{i},p_{j}) =\left\{\begin{matrix}\frac{1}{L(j)}, page\ j\ has\ a\ link\ to\ page\ i\ \\0, page\ j\ has\ no\ link\ to\ page\ i \\\end{matrix}\right., \\L(j)\ is\ the\ total\ number\ of\ links\ out\ of\ page\ j (that\ is,\ the\ outgoing\ degree\ of\ nodes\ in\ the\ graph)\\Then\ R'= \begin{bmatrix}PR(p_{1}) \\PR(p_{2}) \\\vdots \\PR(p_{N}) \\\end{bmatrix} = \frac{1-d}{n}1+dMR" /></p>
+<p>容易证明，上述迭代式中R是收敛的。</p>
+<h2 id="1">任务1：迭代算法</h2>
+<p>将每个点的初始PR值均设置为1/N。设定一个精确度ε，迭代计算</p>
+<p><img src="https://latex.codecogs.com/svg.image?R=\frac{1-d}{n}1&plus;dMR" title="R=\frac{1-d}{n}1+dMR" /></p>
+<p>直到|R’-R|≤ε 即可。实践中，几次迭代后R'即可在极高的精确度下估计R的值。</p>
+<p><strong>任务要求</strong></p>
+<p>参考以上内容，查阅相关资料，编写iterate_rank.cpp文件中的iterate_rank函数以实现PageRank的迭代算法，并且编译运行，程序会判断结果是否正确并测量运行时间</p>
+<h2 id="2">任务2：代数算法</h2>
+<p>将</p>
+<p><img src="https://latex.codecogs.com/svg.image?R=\frac{1-d}{n}1&plus;dMR" title="R=\frac{1-d}{n}1+dMR" /></p>
+<p>变换得到：</p>
+<p><img src="https://latex.codecogs.com/svg.image?(I-dM)R=\frac{1-d}{n}1" title="(I-dM)R=\frac{1-d}{n}1" /></p>
+<p><img src="https://latex.codecogs.com/svg.image?R=(I-dM)^{-1}\frac{1-d}{n}1" title="R=(I-dM)^{-1}\frac{1-d}{n}1" /></p>
+<p>因此，可以通过矩阵求逆与矩阵乘法来直接计算所有网页的PR值。</p>
+<p><strong>任务要求</strong></p>
+<p>参考以上内容，查阅相关资料，编写accurate_rank.cpp文件中的accurate_rank函数以实现PageRank的代数算法，并且编译运行，程序会判断结果是否正确并测量运行时间</p>
+<h2 id="_3">参考文献</h2>
+<p>[1]MLPod. PageRank算法详解[EB/OL]. [2021-10-15]. https://zhuanlan.zhihu.com/p/137561088.</p>
+<p>[2]维基百科. PageRank[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/PageRank.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../2-matrix-multiply/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 2-matrix-multiply" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              2-matrix-multiply
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../4-bfs/" class="md-footer__link md-footer__link--next" aria-label="下一页: 4-bfs" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              4-bfs
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  </body>
+</html>

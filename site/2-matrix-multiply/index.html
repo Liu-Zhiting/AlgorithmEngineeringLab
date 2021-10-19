@@ -1,0 +1,640 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>2-matrix-multiply - Algorithm Engineering Lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-matrix-multiply" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Algorithm Engineering Lab" class="md-header__button md-logo" aria-label="Algorithm Engineering Lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Algorithm Engineering Lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2-matrix-multiply
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      算法工程实验
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../1-sort/" class="md-tabs__link">
+      1-sort
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      2-matrix-multiply
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../3-page-rank/" class="md-tabs__link">
+      3-page-rank
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../4-bfs/" class="md-tabs__link">
+      4-bfs
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../5-triangle-counting/" class="md-tabs__link">
+      5-triangle-counting
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Algorithm Engineering Lab" class="md-nav__button md-logo" aria-label="Algorithm Engineering Lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Algorithm Engineering Lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        算法工程实验
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-sort/" class="md-nav__link">
+        1-sort
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2-matrix-multiply
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2-matrix-multiply
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本信息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    任务1：缓存优化的矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    任务2：分治的矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3strassen" class="md-nav__link">
+    任务3：strassen矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    参考文献
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-page-rank/" class="md-nav__link">
+        3-page-rank
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-bfs/" class="md-nav__link">
+        4-bfs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-triangle-counting/" class="md-nav__link">
+        5-triangle-counting
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本信息
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    任务1：缓存优化的矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    任务2：分治的矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3strassen" class="md-nav__link">
+    任务3：strassen矩阵乘法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    参考文献
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="2-matrix-multiply">2-matrix-multiply</h1>
+<p>设A,B,C为 n × n 的方阵，其中n为2的幂，一般的矩阵可以填零使得n为2的幂。计算C = A · B 的结果</p>
+<h2 id="_1">基本信息</h2>
+<p><strong>输入文件格式</strong></p>
+<p>大小为n*n的二维整数数组。</p>
+<p>文件为二进制格式，最前端4个字节是一个无符号32位整数n，表示矩阵的边长，之后的n*n个4字节有符号整数为数据内容</p>
+<p><strong>函数格式</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">example_function</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p><strong>编译指令</strong></p>
+<div class="highlight"><pre><span></span><code><span class="err">make</span>
+</code></pre></div>
+<p><strong>清理指令</strong></p>
+<div class="highlight"><pre><span></span><code><span class="err">make</span> <span class="err">clean</span>
+</code></pre></div>
+<p><strong>运行指令</strong></p>
+<div class="highlight"><pre><span></span><code>matrix-mul &lt;filename_A&gt; &lt;filename_B&gt;
+</code></pre></div>
+<h2 id="1">任务1：缓存优化的矩阵乘法</h2>
+<p>这里我们假定ABC均用一维数组存储。最简单的计算C = A · B的方法是</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
+<p>假设n = 4096，在计算过程中，每次访问的不是B中的连续的元素，因此访问B的过程缓存命中率低，进而增大了总计算时间，如图</p>
+<p><img alt="1" src="../pics/2-1.png" /></p>
+<p>将三层循环的顺序由“i-j-k”换成“i-k-j”</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
+<p>这时每次访问的都是B,C中的连续元素，缓存命中率高，总计算时间相对于上一个方案会有所提升</p>
+<p><img alt="2" src="../pics/2-2.png" /></p>
+<p><strong>任务要求</strong></p>
+<p>参考以上内容，查阅相关资料，编写loop.cpp文件中的loop函数以实现缓存优化的矩阵乘法，并且编译运行，程序会判断结果是否正确并测量运行时间</p>
+<h2 id="2">任务2：分治的矩阵乘法</h2>
+<p>将A,B,C分成相等大小的方块矩阵：</p>
+<p><img src="https://latex.codecogs.com/svg.image?A&space;=&space;\begin{bmatrix}&space;&space;&space;&space;A_{1,1}&space;&space;&&space;A_{1,2}&space;\\&space;&space;A_{2,1}&space;&&space;A_{2,2}&space;\\\end{bmatrix}&space;,B&space;=&space;\begin{bmatrix}&space;&space;&space;&space;B_{1,1}&space;&space;&&space;B_{1,2}&space;\\&space;&space;B_{2,1}&space;&&space;B_{2,2}&space;\\\end{bmatrix}&space;,C&space;=&space;\begin{bmatrix}&space;&space;&space;&space;C_{1,1}&space;&space;&&space;C_{1,2}&space;\\&space;&space;C_{2,1}&space;&&space;C_{2,2}&space;\\\end{bmatrix}" title="A = \begin{bmatrix} A_{1,1} & A_{1,2} \\ A_{2,1} & A_{2,2} \\\end{bmatrix} ,B = \begin{bmatrix} B_{1,1} & B_{1,2} \\ B_{2,1} & B_{2,2} \\\end{bmatrix} ,C = \begin{bmatrix} C_{1,1} & C_{1,2} \\ C_{2,1} & C_{2,2} \\\end{bmatrix}" /></p>
+<p>于是</p>
+<p><img src="https://latex.codecogs.com/svg.image?C_{1,1}&space;=&space;A_{1,1}B_{1,1}&space;&plus;&space;A_{1,2}B_{2,1}&space;\\C_{1,2}&space;=&space;A_{1,1}B_{1,2}&space;&plus;&space;A_{1,2}B_{2,2}&space;\\C_{2,1}&space;=&space;A_{2,1}B_{1,1}&space;&plus;&space;A_{2,2}B_{2,1}&space;\\C_{2,2}&space;=&space;A_{2,1}B_{1,2}&space;&plus;&space;A_{2,2}B_{2,2}" title="C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}" /></p>
+<p><strong>任务要求</strong></p>
+<p>参考以上内容，查阅相关资料，编写divide_and_conquer.cpp文件中的divide_and_conquer函数以实现分治的矩阵乘法，并且编译运行，程序会判断结果是否正确并测量运行时间</p>
+<h2 id="3strassen">任务3：strassen矩阵乘法</h2>
+<p>将A,B,C分成相等大小的方块矩阵：</p>
+<p><img src="https://latex.codecogs.com/svg.image?A&space;=&space;\begin{bmatrix}&space;&space;&space;&space;A_{1,1}&space;&space;&&space;A_{1,2}&space;\\&space;&space;A_{2,1}&space;&&space;A_{2,2}&space;\\\end{bmatrix}&space;,B&space;=&space;\begin{bmatrix}&space;&space;&space;&space;B_{1,1}&space;&space;&&space;B_{1,2}&space;\\&space;&space;B_{2,1}&space;&&space;B_{2,2}&space;\\\end{bmatrix}&space;,C&space;=&space;\begin{bmatrix}&space;&space;&space;&space;C_{1,1}&space;&space;&&space;C_{1,2}&space;\\&space;&space;C_{2,1}&space;&&space;C_{2,2}&space;\\\end{bmatrix}" title="A = \begin{bmatrix} A_{1,1} & A_{1,2} \\ A_{2,1} & A_{2,2} \\\end{bmatrix} ,B = \begin{bmatrix} B_{1,1} & B_{1,2} \\ B_{2,1} & B_{2,2} \\\end{bmatrix} ,C = \begin{bmatrix} C_{1,1} & C_{1,2} \\ C_{2,1} & C_{2,2} \\\end{bmatrix}" /></p>
+<p>于是</p>
+<p><img src="https://latex.codecogs.com/svg.image?C_{1,1}&space;=&space;A_{1,1}B_{1,1}&space;&plus;&space;A_{1,2}B_{2,1}&space;\\C_{1,2}&space;=&space;A_{1,1}B_{1,2}&space;&plus;&space;A_{1,2}B_{2,2}&space;\\C_{2,1}&space;=&space;A_{2,1}B_{1,1}&space;&plus;&space;A_{2,2}B_{2,1}&space;\\C_{2,2}&space;=&space;A_{2,1}B_{1,2}&space;&plus;&space;A_{2,2}B_{2,2}" title="C_{1,1} = A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\C_{1,2} = A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\C_{2,1} = A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\C_{2,2} = A_{2,1}B_{1,2} + A_{2,2}B_{2,2}" /></p>
+<p>引入新矩阵</p>
+<p><img src="https://latex.codecogs.com/svg.image?M_{1}&space;=&space;(A_{1,1}&plus;A_{2,2})(B_{1,1}&plus;B_{2,2})&space;\\M_{2}&space;=&space;(A_{2,1}&plus;A_{2,2})B_{1,1}&space;\\M_{3}&space;=&space;A_{1,1}(B_{1,2}-B_{2,2})&space;\\M_{4}&space;=&space;A_{2,2}(B_{2,1}-B_{1,1})&space;\\M_{5}&space;=&space;(A_{1,1}&plus;A_{1,2})B_{2,2}&space;\\M_{6}&space;=&space;(A_{2,1}-A_{1,1})(B_{1,1}&plus;B_{1,2})&space;\\M_{7}&space;=&space;(A_{1,2}-A_{2,2})(B_{2,1}&plus;B_{2,2})" title="M_{1} = (A_{1,1}+A_{2,2})(B_{1,1}+B_{2,2}) \\M_{2} = (A_{2,1}+A_{2,2})B_{1,1} \\M_{3} = A_{1,1}(B_{1,2}-B_{2,2}) \\M_{4} = A_{2,2}(B_{2,1}-B_{1,1}) \\M_{5} = (A_{1,1}+A_{1,2})B_{2,2} \\M_{6} = (A_{2,1}-A_{1,1})(B_{1,1}+B_{1,2}) \\M_{7} = (A_{1,2}-A_{2,2})(B_{2,1}+B_{2,2})"/></p>
+<p>可得：</p>
+<p><img src="https://latex.codecogs.com/svg.image?C_{1,1}=M_{1}&plus;M_{4}-M_{5}&plus;M_{7}&space;\\C_{1,2}=M_{3}&plus;M_{5}&space;\\C_{2,1}=M_{2}&plus;M_{4}&space;\\C_{2,2}=M_{1}-M_{2}&plus;M_{3}&plus;M_{6}" title="C_{1,1}=M_{1}+M_{4}-M_{5}+M_{7} \\C_{1,2}=M_{3}+M_{5} \\C_{2,1}=M_{2}+M_{4} \\C_{2,2}=M_{1}-M_{2}+M_{3}+M_{6}" /></p>
+<p>其中的计算也是使用strassen算法求得。</p>
+<p><strong>任务要求</strong></p>
+<p>参考以上内容，查阅相关资料，编写strassen.cpp文件中的strassen函数以实现strassen矩阵乘法，并且编译运行，程序会判断结果是否正确并测量运行时间</p>
+<h2 id="_2">参考文献</h2>
+<p>[1]Charles E. Leiserson. Introduction &amp; Matrix Multiplication[EB/OL]. [2021-10-15]. https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-172-performance-engineering-of-software-systems-fall-2018/lecture-slides/MIT6_172F18_lec1.pdf.</p>
+<p>[2]维基百科. 施特拉森算法[EB/OL]. [2021-10-15]. https://zh.wikipedia.org/wiki/%E6%96%BD%E7%89%B9%E6%8B%89%E6%A3%AE%E6%BC%94%E7%AE%97%E6%B3%95.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../1-sort/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 1-sort" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              1-sort
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../3-page-rank/" class="md-footer__link md-footer__link--next" aria-label="下一页: 3-page-rank" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              3-page-rank
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  </body>
+</html>
