@@ -1,3 +1,12 @@
 data/
 .vscode/
 site/
+0-data-generator/array_generator
+0-data-generator/matrix_generator
+0-data-generator/adjoint_list_generator
+0-data-generator/graph_parser
+1-sort/sort
+2-matrix-multiply/matrix-mul
+3-page-rank/page-rank
+4-bfs/bfs
+5-triangle-counting/triangle-counting
