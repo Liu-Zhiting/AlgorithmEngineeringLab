@@ -57,7 +57,6 @@ bool parse_args(int argc, char **argv)
         return false;
     DataSetName = argv[1];
     FileName = argv[2];
-    cout << DataSetName << "\n" << FileName << endl;
     return true;
 }
 
@@ -94,17 +93,17 @@ void runCmp()
     // check if answer valid
     if(!Source.isAnswerValid(answer))
     {
-        cout << "Your answer is invalid, please check again." << endl;
+        cout << "Your answer is not a tour, please check again." << endl;
         return;
     }
 
     // benchmark
     double result = Source.getTourDistance(answer);
     double delta = result - DataSet.at(DataSetName).optAns;
-    double rate = DataSet.at(DataSetName).optAns / result * 100;
+    double rate = (result - DataSet.at(DataSetName).optAns) / DataSet.at(DataSetName).optAns * 100;
     cout << fixed << setprecision(2);
-    cout << "Your answer builds a tour of " << result << endl
-         << "The optimized distance is " << DataSet.at(DataSetName).optAns << endl
-         << "Your answer gets " << delta << " longer distance than optimized" << endl
-         << "Your answer is approximately " << rate << "% of optimized" << endl;
+    cout << "The distance of your tour is " << result << endl
+         << "The best-known value(bkv) is " << DataSet.at(DataSetName).optAns << endl
+         << "Your distance is " << delta << " longer than the best-known" << endl
+         << "The gap (your_tour-bkv)/bkv*100% is: " << rate << "%"<< endl;
 }
